@@ -2,12 +2,12 @@ package cs361.battleships.models;
 
 public class Result {
 
-	public AtackStatus getResult() {
+	public AttackStatus getResult() {
 		//TODO implement
 		return null;
 	}
 
-	public void setResult(AtackStatus result) {
+	public void setResult(AttackStatus result) {
 		//TODO implement
 	}
 
