@@ -8,6 +8,11 @@ public class ShipTest {
     Ship newShip;
 
     @Test
+    private void testGetSquares(){
+        Ship
+    }
+
+    @Test
     public void testPlacements(){
         ShipType types[] = ShipType.values();
         int length = types.length;
@@ -45,4 +50,5 @@ public class ShipTest {
         }
 
     }
+
 }
