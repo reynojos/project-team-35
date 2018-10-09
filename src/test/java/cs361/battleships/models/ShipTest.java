@@ -8,8 +8,12 @@ public class ShipTest {
     Ship newShip;
 
     @Test
-    private void testGetSquares(){
-        Ship
+    public void testGetSquares(){
+        Ship ship = new Ship(ShipType.MINESWEEPER);
+
+        List squares = ship.getOccupiedSquares();
+
+        assertTrue(squares.size() == 0);
     }
 
     @Test
@@ -27,7 +31,7 @@ public class ShipTest {
     // Test the placement of a new ship
     private void testPlacement(ShipType type, Boolean isVertical){
         char col = 'A';
-        int row = '0';
+        int row = 0;
 
         newShip = new Ship(type);
         newShip.place(new Square(0, 'A'),isVertical);
@@ -39,13 +43,13 @@ public class ShipTest {
         if (isVertical) {
             for (int i = 0; i < newShip.getLength(); i++) {
                 assertTrue(squares.get(i).getColumn() == col);
-                assertTrue(squares.get(i).getRow() == (char) (row + 1));
+                assertTrue(squares.get(i).getRow() == row + i);
             }
         }
         else {
             for (int i = 0; i < newShip.getLength(); i++) {
                 assertTrue(squares.get(i).getRow() == row);
-                assertTrue(squares.get(i).getColumn() == (char) (col + 1));
+                assertTrue(squares.get(i).getColumn() == (char) (col + i));
             }
         }
 
