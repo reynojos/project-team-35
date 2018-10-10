@@ -22,16 +22,19 @@ public class Board {
 		for (Ship ship: ships){
 			// Check every square in current ship
 			for (Square square: ship.getOccupiedSquares()){
+				//keep original x and y so we can keep testing past first iteration.
+				int x_updated = x;
+				char y_updated = y;
 				// and every square in potential ship
 				for (int i=0; i < newShip.getLength(); i++){
 
-					if (square.getColumn() == y && square.getRow() == x){
+					if (square.getColumn() == y_updated && square.getRow() == x_updated){
 						return false;
 					}
 					if (isVertical)
-						x++;
+						x_updated++;
 					else
-						y++;
+						y_updated++;
 				}
 			}
 		}

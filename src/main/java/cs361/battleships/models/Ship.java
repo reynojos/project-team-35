@@ -4,14 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ArrayList;
 
 public class Ship {
 
-	private ShipType type;
+	private String type;
 	@JsonProperty private List<Square> occupiedSquares;
 
-	public Ship(ShipType type) {
+	public Ship(String type) {
 		this.type = type;
 		this.occupiedSquares = new ArrayList<>();
 	}
@@ -19,31 +18,17 @@ public class Ship {
 
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
+		type="MINESWEEPER";
 	}
-
-    public Ship(String type) {
-        if (type == "MINESWEEPER"){
-            this.type=ShipType.MINESWEEPER;
-        }
-        else if (type == "DESTROYER"){
-            this.type=ShipType.DESTROYER;
-        }
-        else if (type  == "BATTLESHIP"){
-            this.type=ShipType.BATTLESHIP;
-        }
-        else{
-            // something went wrong;
-        }
-    }
 
 	public int getLength(){
         switch(type){
 
-            case MINESWEEPER:
+            case "MINESWEEPER":
                 return 2;
-            case DESTROYER:
+            case "DESTROYER":
                 return 3;
-            case BATTLESHIP:
+            case "BATTLESHIP":
                 return 4;
         }
 
@@ -51,21 +36,9 @@ public class Ship {
     }
 
 	public void place(Square pos, Boolean isVertical){
-        int length = 0;
 	    occupiedSquares.add(pos);
 
-        switch(type){
-
-            case MINESWEEPER:
-                length = 2;
-                break;
-            case DESTROYER:
-                length = 3;
-                break;
-            case BATTLESHIP:
-                length = 4;
-                break;
-        }
+        int length=getLength();
 
         //how much should be added
         int startingRow = pos.getRow();
