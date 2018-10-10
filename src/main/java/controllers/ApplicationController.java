@@ -27,7 +27,6 @@ public class ApplicationController {
             return Results.json().render(game);
         } else {
             return Results.badRequest();
-
         }
     }
 

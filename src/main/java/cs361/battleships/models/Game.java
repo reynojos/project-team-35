@@ -27,7 +27,7 @@ public class Game {
             opponentPlacedSuccessfully = opponentsBoard.placeShip(ship, randRow(), randCol(), randVertical());
         } while (!opponentPlacedSuccessfully);
 
-        return true; 
+        return true;
     }
 
     /*
