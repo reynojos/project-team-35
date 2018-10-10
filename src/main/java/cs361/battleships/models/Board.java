@@ -2,10 +2,11 @@ package cs361.battleships.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Board {
 
-	List<Ship> ships; // track ships on board
+	@JsonProperty List<Ship> ships; // track ships on board
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.

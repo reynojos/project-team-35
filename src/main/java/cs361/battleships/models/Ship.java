@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Ship {
 
-	private String type;
+	@JsonProperty private String type;
 	@JsonProperty private List<Square> occupiedSquares;
 
 	public Ship(String type) {
