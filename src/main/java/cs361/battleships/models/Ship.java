@@ -4,15 +4,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 public class Ship {
 
-	@JsonProperty private List<Square> occupiedSquares = new ArrayList<>();
-
 	private ShipType type;
+	@JsonProperty private List<Square> occupiedSquares;
 
 	public Ship(ShipType type) {
 		this.type = type;
+		this.occupiedSquares = new ArrayList<>();
+	}
+
+
+	public Ship() {
+		occupiedSquares = new ArrayList<>();
 	}
 
     public Ship(String type) {
