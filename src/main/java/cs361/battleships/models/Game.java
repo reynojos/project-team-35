@@ -55,7 +55,7 @@ public class Game {
         return true;
     }
 
-    private char randCol() {
+    public char randCol() {
         //This will select a random character between A - J
         Random r = new Random();
 
@@ -65,16 +65,16 @@ public class Game {
         return this.alphabet.charAt(r.nextInt(alphabet.length()));
     }
 
-    private int randRow() {
+    public int randRow() {
         //This will return a random number between 1 - 10
         Random r = new Random();
         return (r.nextInt(10) + 1);
     }
 
-    private boolean randVertical() {
+    public boolean randVertical() {
         //This will return true or false depending if the random
         //integer from 0-1 is 0
         Random r = new Random();
-        return (r.nextInt(2) == 0);
+        return (r.nextInt(2) != 0);
     }
 }
