@@ -13,9 +13,7 @@ public class Game {
     @JsonProperty private Board playersBoard;
     @JsonProperty private Board opponentsBoard;
 
-    private static String alphabet = "ABCDEFGHIJ";
-
-
+    private String alphabet = "ABCDEFGHIJ";
 
     public Game(){
         playersBoard = new Board();
