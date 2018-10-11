@@ -9,8 +9,13 @@ import static cs361.battleships.models.AttackStatus.*;
 
 public class Game {
 
-    @JsonProperty private Board playersBoard = new Board();
-    @JsonProperty private Board opponentsBoard = new Board();
+    @JsonProperty private Board playersBoard;
+    @JsonProperty private Board opponentsBoard;
+
+    public Game(){
+        playersBoard = new Board();
+        opponentsBoard = new Board();
+    }
 
     /*
 	DO NOT change the signature of this method. It is used by the grading scripts.

@@ -1,9 +1,11 @@
 package cs361.battleships.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Square {
 
-	private int row;
-	private char column;
+	@JsonProperty private int row;
+	@JsonProperty private char column;
 
 	public Square(){}
 

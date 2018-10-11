@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Board {
 
-	@JsonProperty List<Ship> ships; // track ships on board
+	@JsonProperty private List<Ship> ships; // track ships on board
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
@@ -56,12 +56,11 @@ public class Board {
 	}
 
 	public List<Ship> getShips() {
-		//TODO implement
-		return null;
+		return ships;
 	}
 
 	public void setShips(List<Ship> ships) {
-		//TODO implement
+		this.ships = ships;
 	}
 
 	public List<Result> getAttacks() {
