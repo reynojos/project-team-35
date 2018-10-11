@@ -2,8 +2,8 @@ package cs361.battleships.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 public class Ship {
 
@@ -18,7 +18,6 @@ public class Ship {
 
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
-		type="MINESWEEPER";
 	}
 
 	public String getType(){
@@ -62,6 +61,7 @@ public class Ship {
     }
 
 	public List<Square> getOccupiedSquares() {
-		return occupiedSquares;
+		//TODO implement
+		return null;
 	}
 }

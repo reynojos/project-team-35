@@ -10,7 +10,7 @@ import java.util.List;
 public class BoardTest {
 
     @Test
-    public void testValidPlacement() {
+    public void testInvalidPlacement() {
         Board board = new Board();
         assertTrue(board.placeShip(new Ship("MINESWEEPER"), 0, 'A', true));
     }
