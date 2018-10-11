@@ -43,16 +43,16 @@ public class ShipTest {
 
         List<Square> squares = newShip.getOccupiedSquares();
 
-        assertTrue(squares.size() == newShip.getLength());
+        assertTrue(squares.size() == newShip.getLength()-1);
 
         if (isVertical) {
-            for (int i = 0; i < newShip.getLength(); i++) {
+            for (int i = 0; i < newShip.getLength()-1; i++) {
                 assertTrue(squares.get(i).getColumn() == col);
                 assertTrue(squares.get(i).getRow() == row + i);
             }
         }
         else {
-            for (int i = 0; i < newShip.getLength(); i++) {
+            for (int i = 0; i < newShip.getLength()-1; i++) {
                 assertTrue(squares.get(i).getRow() == row);
                 assertTrue(squares.get(i).getColumn() == (char) (col + i));
             }

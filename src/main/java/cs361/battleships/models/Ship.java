@@ -12,7 +12,7 @@ public class Ship {
 
 	public Ship(String type) {
 		this.type = type;
-		this.occupiedSquares = new ArrayList<>();
+		occupiedSquares = new ArrayList<>();
 	}
 
 
@@ -35,8 +35,7 @@ public class Ship {
         return -1;
     }
 
-	public void place(Square pos, Boolean isVertical){
-	    occupiedSquares.add(pos);
+	public void place(Square pos, Boolean isVertical){ ;
 
         int length=getLength();
 
@@ -45,13 +44,13 @@ public class Ship {
         char startingCol = pos.getColumn();
 
         if (isVertical){
-            for (int i=1; i<length; i++){
+            for (int i=0; i<length; i++){
                 Square newSquare = new Square(startingRow+i, startingCol);
                 occupiedSquares.add(newSquare);
             }
         }
         else {
-            for (int i = 1; i < length; i++) {
+            for (int i = 0; i < length; i++) {
                 Square newSquare = new Square(startingRow, (char)(startingCol+i));
                 occupiedSquares.add(newSquare);
             }

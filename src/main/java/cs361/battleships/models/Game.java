@@ -9,13 +9,13 @@ import static cs361.battleships.models.AttackStatus.*;
 
 public class Game {
 
-    @JsonProperty private Board playersBoard;
-    @JsonProperty private Board opponentsBoard;
+    @JsonProperty private Board playersBoard = new Board();
+    @JsonProperty private Board opponentsBoard = new Board();
 
-    public Game(){
-        playersBoard = new Board();
-        opponentsBoard = new Board();
-    }
+//    public Game(){
+//        playersBoard = new Board();
+//        opponentsBoard = new Board();
+//    }
 
     /*
 	DO NOT change the signature of this method. It is used by the grading scripts.
@@ -56,12 +56,12 @@ public class Game {
 
     private char randCol() {
         // TODO implement
-        return 'X';
+        return 'B';
     }
 
     private int randRow() {
         // TODO implement
-        return 0;
+        return 2;
     }
 
     private boolean randVertical() {

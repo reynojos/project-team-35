@@ -13,7 +13,7 @@ public class Result {
 
 	public Ship getShip() {
 		//TODO implement
-		return null;
+		return new Ship();
 	}
 
 	public void setShip(Ship ship) {
