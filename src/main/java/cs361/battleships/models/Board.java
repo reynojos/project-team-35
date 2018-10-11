@@ -11,7 +11,7 @@ public class Board {
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public Board() {
-		ships = new ArrayList<>();
+		ships = new ArrayList<Ship>();
 	}
 
 	/*
@@ -59,7 +59,7 @@ public class Board {
 	}
 
 	public List<Ship> getShips() {
-		return ships;
+		return this.ships;
 	}
 
 	public void setShips(List<Ship> ships) {
