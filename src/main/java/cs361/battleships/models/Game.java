@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static cs361.battleships.models.AttackStatus.*;
 
@@ -12,9 +13,17 @@ public class Game {
     @JsonProperty private Board playersBoard;
     @JsonProperty private Board opponentsBoard;
 
+    private String alphabet = "ABCDEFGHIJ";
+
+
+
     public Game(){
         playersBoard = new Board();
         opponentsBoard = new Board();
+    }
+
+    public String getAlphabet(){
+        return alphabet;
     }
 
     /*
@@ -57,18 +66,26 @@ public class Game {
         return true;
     }
 
-    private char randCol() {
-        // TODO implement
-        return 'A';
+    public char randCol() {
+        //This will select a random character between A - J
+        Random r = new Random();
+
+        //Declare a string that contains possible choices
+        //From this string, randomly select an index that will be returned
+        String alphabet = "ABCDEFGHIJ";
+        return this.alphabet.charAt(r.nextInt(alphabet.length()));
     }
 
-    private int randRow() {
-        // TODO implement
-        return 1;
+    public int randRow() {
+        //This will return a random number between 1 - 10
+        Random r = new Random();
+        return (r.nextInt(10) + 1);
     }
 
-    private boolean randVertical() {
-        // TODO implement
-        return false;
+    public boolean randVertical() {
+        //This will return true or false depending if the random
+        //integer from 0-1 is 0
+        Random r = new Random();
+        return (r.nextInt(2) != 0);
     }
 }
