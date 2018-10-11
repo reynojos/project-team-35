@@ -19,8 +19,12 @@ public class Board {
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
+
 		// Check every ship
 		for (Ship currentShip: ships){
+			if (ship.getType().equals(currentShip.getType())){
+				return false;
+			}
 			// Check every square in current ship
 			for (Square square: currentShip.getOccupiedSquares()){
 				//keep original x and y so we can keep testing past first iteration.
