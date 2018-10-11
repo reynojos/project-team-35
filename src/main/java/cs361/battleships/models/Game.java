@@ -10,27 +10,36 @@ import static cs361.battleships.models.AttackStatus.*;
 
 public class Game {
 
-    @JsonProperty private Board playersBoard = new Board();
-    @JsonProperty private Board opponentsBoard = new Board();
+    @JsonProperty private Board playersBoard;
+    @JsonProperty private Board opponentsBoard;
 
-    private static final String alphabet = "ABCDEFGHIJ";
+    private String alphabet = "ABCDEFGHIJ";
+
+    public Game(){
+        playersBoard = new Board();
+        opponentsBoard = new Board();
+    }
 
     public String getAlphabet(){
         return alphabet;
     }
+
     /*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
     public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
+        //separate player ship from opponent ship
         boolean successful = playersBoard.placeShip(ship, x, y, isVertical);
         if (!successful)
             return false;
+
+        Ship opponentShip = new Ship(ship.getType());
 
         boolean opponentPlacedSuccessfully;
         do {
             // AI places random ships, so it might try and place overlapping ships
             // let it try until it gets it right
-            opponentPlacedSuccessfully = opponentsBoard.placeShip(ship, randRow(), randCol(), randVertical());
+            opponentPlacedSuccessfully = opponentsBoard.placeShip(opponentShip, randRow(), randCol(), randVertical());
         } while (!opponentPlacedSuccessfully);
 
         return true;

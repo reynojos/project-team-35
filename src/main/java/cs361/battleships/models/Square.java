@@ -1,6 +1,7 @@
 package cs361.battleships.models;
 
-@SuppressWarnings("unused")
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Square {
 
 	private int row;
