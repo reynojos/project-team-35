@@ -43,7 +43,7 @@ public class ShipTest {
 
         List<Square> squares = newShip.getOccupiedSquares();
 
-        assertTrue(squares.size() == newShip.getLength()-1);
+        assertTrue(squares.size() == newShip.getLength());
 
         if (isVertical) {
             for (int i = 0; i < newShip.getLength()-1; i++) {

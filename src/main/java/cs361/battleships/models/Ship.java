@@ -7,8 +7,8 @@ import java.util.List;
 
 public class Ship {
 
-	@JsonProperty private String type;
-	@JsonProperty private List<Square> occupiedSquares;
+    private String type;
+	private List<Square> occupiedSquares;
 
 	public Ship(String type) {
 		this.type = type;
@@ -20,6 +20,10 @@ public class Ship {
 		occupiedSquares = new ArrayList<>();
 		type="MINESWEEPER";
 	}
+
+	public String getType(){
+	    return type;
+    }
 
 	public int getLength(){
         switch(type){

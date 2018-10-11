@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Board {
 
-	@JsonProperty private List<Ship> ships; // track ships on board
+	private List<Ship> ships; // track ships on board
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
@@ -18,16 +18,16 @@ public class Board {
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
-	public boolean placeShip(Ship newShip, int x, char y, boolean isVertical) {
+	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
 		// Check every ship
-		for (Ship ship: ships){
+		for (Ship currentShip: ships){
 			// Check every square in current ship
-			for (Square square: ship.getOccupiedSquares()){
+			for (Square square: currentShip.getOccupiedSquares()){
 				//keep original x and y so we can keep testing past first iteration.
 				int x_updated = x;
 				char y_updated = y;
 				// and every square in potential ship
-				for (int i=0; i < newShip.getLength(); i++){
+				for (int i=0; i < ship.getLength(); i++){
 
 					if (square.getColumn() == y_updated && square.getRow() == x_updated){
 						return false;
@@ -41,8 +41,8 @@ public class Board {
 		}
 
 		// If we've gotten to this point then we can add the ship.
-		newShip.place(new Square(x, y), isVertical);
-		ships.add(newShip);
+		ship.place(new Square(x, y), isVertical);
+		ships.add(ship);
 
 		return true;
 	}

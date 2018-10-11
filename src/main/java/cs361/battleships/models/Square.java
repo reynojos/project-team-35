@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Square {
 
-	@JsonProperty private int row;
-	@JsonProperty private char column;
+	private int row;
+	private char column;
 
 	public Square(){}
 
