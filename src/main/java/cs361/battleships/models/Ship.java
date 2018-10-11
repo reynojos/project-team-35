@@ -7,12 +7,24 @@ import java.util.ArrayList;
 
 public class Ship {
 
+    @JsonProperty private List<Square> occupiedSquares;
     private String type;
-	private List<Square> occupiedSquares;
+    private int length;
+
 
 	public Ship(String type) {
 		this.type = type;
-		occupiedSquares = new ArrayList<>();
+		occupiedSquares = new ArrayList<Square>();
+        //Have a switch statement that makes the
+        //ship a certain length depending on the size
+		switch(type){
+            case "MINESWEEPER":
+                length = 2;
+            case "DESTROYER":
+                length = 3;
+            case "BATTLESHIP":
+                length = 4;
+        }
 	}
 
 
@@ -21,12 +33,11 @@ public class Ship {
 	}
 
 	public String getType(){
-	    return type;
+	    return this.type;
     }
 
 	public int getLength(){
         switch(type){
-
             case "MINESWEEPER":
                 return 2;
             case "DESTROYER":
@@ -34,7 +45,6 @@ public class Ship {
             case "BATTLESHIP":
                 return 4;
         }
-
         return -1;
     }
 
@@ -46,6 +56,8 @@ public class Ship {
         int startingRow = pos.getRow();
         char startingCol = pos.getColumn();
 
+        //If the boat is vertical, the dimensions that the squares are allocated
+        //must represent a vertical pattern
         if (isVertical){
             for (int i=0; i<length; i++){
                 Square newSquare = new Square(startingRow+i, startingCol);
