@@ -18,27 +18,27 @@ public class BoardTest {
         board.placeShip(new Ship("DESTROYER"), 9, 'A', false);
         board.placeShip(new Ship("BATTLESHIP"), 10, 'A', false);
 
-        //test barely miss
+        // Test: barely miss
         assertTrue(board.attack(2, 'A').getResult() == AttackStatus.MISS);
 
-        //test repeat/invalid
+        // Test: repeat/invalid
         assertTrue(board.attack(2, 'A').getResult() == AttackStatus.INVALID);
 
-        //test hit
+        // Test: hit
         assertTrue(board.attack(1, 'A').getResult() == AttackStatus.HIT);
 
-        //test out of bounds/invalid
+        // Test: out of bounds/invalid
         assertTrue(board.attack(0, 'A').getResult() == AttackStatus.INVALID);
 
-        // Test sunken
+        // Test: sunken
         assertTrue(board.attack(1, 'B').getResult() == AttackStatus.SUNK);
 
-        // Test sunk set up for surrender
+        // Test: sunk set up for surrender
         assertTrue(board.attack(9, 'A').getResult() == AttackStatus.HIT);
         assertTrue(board.attack(9, 'B').getResult() == AttackStatus.HIT);
         assertTrue(board.attack(9, 'C').getResult() == AttackStatus.SUNK);
 
-        // Test surrender
+        // Test: surrender
         assertTrue(board.attack(10, 'A').getResult() == AttackStatus.HIT);
         assertTrue(board.attack(10, 'B').getResult() == AttackStatus.HIT);
         assertTrue(board.attack(10, 'C').getResult() == AttackStatus.HIT);
