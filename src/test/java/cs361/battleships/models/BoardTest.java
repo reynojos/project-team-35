@@ -10,6 +10,8 @@ import java.util.List;
 
 public class BoardTest {
 
+
+
     @Test
     public void testBoardPlacement() {
 
