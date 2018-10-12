@@ -8,7 +8,12 @@ import java.util.List;
 public class Board {
 
 	private List<Ship> ships; // track ships on board
+
 	private List<Result> attacks; // track the atnnjfsfstacks that were attempted from Result class
+
+	public static char MAXCOL = 'J';
+	public static char MAXROW = 10;
+
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
@@ -21,6 +26,15 @@ public class Board {
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
+
+		if (isVertical){
+			if (x+ship.getLength()-1 > MAXROW)
+				return false;
+		}
+		else {
+			if (y+ship.getLength()-1 > MAXCOL)
+				return false;
+		}
 
 		// Check every ship
 		for (Ship currentShip: ships){
