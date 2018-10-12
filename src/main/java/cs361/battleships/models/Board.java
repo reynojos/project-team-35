@@ -9,7 +9,7 @@ public class Board {
 
 	private List<Ship> ships; // track ships on board
 
-	private List<Result> attacks; // track the atnnjfsfstacks that were attempted from Result class
+	private List<Result> attacks; // track the attacks that were attempted from Result class
 
 	public static char MAXCOL = 'J';
 	public static char MAXROW = 10;
