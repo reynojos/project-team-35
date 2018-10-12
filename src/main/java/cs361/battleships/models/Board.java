@@ -1,5 +1,7 @@
 package cs361.battleships.models;
 
+import controllers.AttackGameAction;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,11 +67,11 @@ public class Board {
 				int testRow = attack_location.getRow();
 				char testCol = attack_location.getColumn();
 				if(x == testRow && y == testCol){
-					return false;
+					return true;
 				}
 			}
 		}
-		return true; //If the for loop above is passed, that the attack was not previously recorded
+		return false; //If the for loop above is passed, that the attack was not previously recorded
  	}
 
  	public boolean hasHitShip(int x, int y){
@@ -97,8 +99,6 @@ public class Board {
 			for(int j = 0; j < occupiedSquares.size(); j++){
 				Square boat_location = occupiedSquares.get(j);
 				if(boat_location != null){
-
-
 					if(x == boat_location.getRow() && y == boat_location.getColumn()){
 						return ships.get(i); //return what ship has been hit
 					}

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.ArrayList;
 
+import static cs361.battleships.models.AttackStatus.*;
+
 public class Ship {
 
     @JsonProperty private List<Square> occupiedSquares;
