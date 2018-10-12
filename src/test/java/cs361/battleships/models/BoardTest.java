@@ -18,32 +18,95 @@ public class BoardTest {
         board.placeShip(new Ship("DESTROYER"), 9, 'A', false);
         board.placeShip(new Ship("BATTLESHIP"), 10, 'A', false);
 
+        assertFalse(board.checkGame());
+
         // Test: barely miss
-        assertTrue(board.attack(2, 'A').getResult() == AttackStatus.MISS);
+        AttackStatus attack = board.attack(2, 'A').getResult();
+        assertTrue(attack == AttackStatus.MISS);
 
         // Test: repeat/invalid
-        assertTrue(board.attack(2, 'A').getResult() == AttackStatus.INVALID);
+        attack = board.attack(2, 'A').getResult();
+        assertTrue(attack == AttackStatus.INVALID);
 
         // Test: hit
-        assertTrue(board.attack(1, 'A').getResult() == AttackStatus.HIT);
+        attack = board.attack(1, 'A').getResult();
+        assertTrue(attack == AttackStatus.HIT);
 
         // Test: out of bounds/invalid
-        assertTrue(board.attack(0, 'A').getResult() == AttackStatus.INVALID);
+        attack = board.attack(0, 'A').getResult();
+        assertTrue(attack == AttackStatus.INVALID);
 
-        // Test: sunken
-        assertTrue(board.attack(1, 'B').getResult() == AttackStatus.SUNK);
+        // Test: sunken, and checkWin based on surrender value
+        attack = board.attack(1, 'B').getResult();
+        assertFalse(attack == AttackStatus.SURRENDER);
+        assertTrue(attack == AttackStatus.SUNK);
 
-        // Test: sunk set up for surrender
-        assertTrue(board.attack(9, 'A').getResult() == AttackStatus.HIT);
-        assertTrue(board.attack(9, 'B').getResult() == AttackStatus.HIT);
-        assertTrue(board.attack(9, 'C').getResult() == AttackStatus.SUNK);
+        // Test: sunk set up for surrender & checkGame function test for false
+        attack = board.attack(9, 'A').getResult();
+        assertTrue(attack == AttackStatus.HIT);
+        attack = board.attack(9, 'B').getResult();
+        assertTrue(attack == AttackStatus.HIT);
 
-        // Test: surrender
-        assertTrue(board.attack(10, 'A').getResult() == AttackStatus.HIT);
-        assertTrue(board.attack(10, 'B').getResult() == AttackStatus.HIT);
-        assertTrue(board.attack(10, 'C').getResult() == AttackStatus.HIT);
-        assertTrue(board.attack(10, 'D').getResult() == AttackStatus.SURRENDER);
+        attack = board.attack(9, 'C').getResult();
+        assertFalse(attack == AttackStatus.SURRENDER);
+        assertTrue(attack == AttackStatus.SUNK);
 
+        // Test: surrender (checkGame function)
+        attack = board.attack(10, 'A').getResult();
+        assertTrue(attack == AttackStatus.HIT);
+        attack = board.attack(10, 'B').getResult();
+        assertTrue(attack == AttackStatus.HIT);
+        attack = board.attack(10, 'C').getResult();
+        assertTrue(attack == AttackStatus.HIT);
+        attack = board.attack(10, 'D').getResult();
+        assertFalse(attack == AttackStatus.SUNK);
+        assertTrue(attack == AttackStatus.SURRENDER);
+
+    }
+
+    @Test
+    public void testHasBeenSelected() {
+        Board board = new Board();
+        board.placeShip(new Ship("MINESWEEPER"), 1, 'A', false);
+
+        board.attack(1, 'A');
+
+        boolean selected = board.hasBeenSelected(1, 'A');
+        assertTrue( selected );
+
+        selected = board.hasBeenSelected(2, 'A');
+        assertFalse( selected );
+    }
+
+    @Test
+    public void testHasHitShip() {
+
+        // Set up
+        Board board = new Board();
+        board.placeShip(new Ship("MINESWEEPER"), 1, 'A', false);
+
+        // Test: If ship is there return true
+        boolean hit = board.hasHitShip(1, 'A');
+        assertTrue( hit );
+
+        // Test: If ship isn't there return false
+        hit = board.hasHitShip(1, 'D');
+        assertFalse( hit );
+    }
+
+    @Test
+    public void testFindHit() {
+        // Set up
+        Board board = new Board();
+        board.placeShip(new Ship("MINESWEEPER"), 1, 'A', false);
+        board.attack(1, 'A');
+
+        // Test: Hit minesweeper ship
+        Ship ship = board.findHit(1, 'A');
+        assertTrue( ship.getType() == "MINESWEEPER" );
+
+        ship = board.findHit(5, 'J');
+        assertTrue( ship == null );
     }
 
     @Test
@@ -102,7 +165,11 @@ public class BoardTest {
 
         // Test new size of ships
         assertTrue(board.getShips().size() == 3);
+    }
 
-
+    @Test
+    public void testGetSetShips() {
+        Board board = new Board();
+        board.placeShip(new Ship("MINSWEEPER"), 1, 'A', false);
     }
 }
