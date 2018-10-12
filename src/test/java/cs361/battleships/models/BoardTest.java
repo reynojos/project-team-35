@@ -11,13 +11,7 @@ import java.util.List;
 public class BoardTest {
 
     @Test
-    public void testInvalidPlacement() {
-        Board board = new Board();
-        assertTrue(board.placeShip(new Ship("MINESWEEPER"), 0, 'A', true));
-    }
-
-    @Test
-    public void testOverlapPlacement() {
+    public void testBoardPlacement() {
 
         // initiate 2 boards to compare
         Board board = new Board();
