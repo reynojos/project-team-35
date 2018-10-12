@@ -6,6 +6,11 @@ public class Result {
 	private AttackStatus status; //AttackStatus object that lets user know the status of an attack
 	private Square spot; //Each square will have a result attached
 
+	public Result(){
+		ship=null;
+		status=null;
+		spot=null;
+	}
 
 	public AttackStatus getResult() {
 		return status;

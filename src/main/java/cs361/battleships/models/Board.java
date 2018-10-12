@@ -129,13 +129,11 @@ public class Board {
 		//Make sure that this spot has not been previously attacked
 		if(hasBeenSelected(x, y)){
 			attempt.setResult(AttackStatus.INVALID);
+			return attempt;
 		}
 
 		//If the test cases above passed, we can pass our coordinates into the array that holds the attacks
 		//We can check if our attempt has hit a ship
-
-		//First we get out attacks
-		List<Result> attacks = getAttacks();
 
 
 		if(hasHitShip(x, y)){
@@ -146,7 +144,6 @@ public class Board {
 
 			//Add attack to list of attacks
 			attacks.add(attempt);
-			setAttacks(attacks);
 
 			//Return which ship was attacked, and add hit marker
 
@@ -160,7 +157,8 @@ public class Board {
 
 			//Add attack to list of attacks
 			attacks.add(attempt);
-			setAttacks(attacks);
+
+
 
 			return attempt;
 		}
