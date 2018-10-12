@@ -122,6 +122,24 @@ public class Board {
 		return null; //return nothing (should not be the case because we assumed a hit)
 	}
 
+	public boolean checkGame(){
+		List<Result> allAttacks = getAttacks();
+		int sunkenMarks = 0;
+		//Get all the attacks and count the number of sinks in those attacks.
+		for(int i = 0; i < allAttacks.size(); i++){
+			if(attacks.get(i).getResult() == AttackStatus.SUNK) {
+				sunkenMarks++;
+			}
+		}
+		//If the total sunken marks equals 3, its game over
+		if(sunkenMarks == 3){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
@@ -148,20 +166,42 @@ public class Board {
 
 		//If the test cases above passed, we can pass our coordinates into the array that holds the attacks
 		//We can check if our attempt has hit a ship
-
+		List<Result> previous_attacks = getAttacks();
 
 		if(hasHitShip(x, y)){
 			Ship hitShip = findHit(x,y);
-			attempt.setResult(AttackStatus.HIT);
-			attempt.setLocation(new Square(x, y));
+
+			//Attach the hit ship to the attempt and set its location
 			attempt.setShip(hitShip);
+			attempt.setLocation(new Square(x,y));
 
-			//Add attack to list of attacks
-			attacks.add(attempt);
+			//Get the ship length and add one to the hit length
+			int shipLength = hitShip.getLength();
+			int shipHitLength = hitShip.getHitLength();
+			hitShip.setHitLength(shipHitLength + 1);
 
-			//Return which ship was attacked, and add hit marker
+			//If the ship has been as many times as its length,
+			// the ship is sunken
+			if(shipLength == (shipHitLength + 1)) {
+				attempt.setResult(AttackStatus.SUNK);
 
+				previous_attacks.add(attempt);
+				setAttacks(previous_attacks);
+			}
+			//Otherwise, its a normal hit
+			else{
+				attempt.setResult(AttackStatus.HIT);
+				previous_attacks.add(attempt);
+				setAttacks(previous_attacks);
+			}
 
+			//After Every hit check if the game has ended
+			if(checkGame()){
+				attempt.setResult(AttackStatus.SURRENDER);
+
+				previous_attacks.add(attempt);
+				setAttacks(previous_attacks);
+			}
 		}
 		//if hit missed
 		else{
@@ -170,11 +210,8 @@ public class Board {
 			attempt.setLocation(new Square(x, y));
 
 			//Add attack to list of attacks
-			attacks.add(attempt);
-
-
-
-			return attempt;
+			previous_attacks.add(attempt);
+			setAttacks(previous_attacks);
 		}
 
 		return attempt;

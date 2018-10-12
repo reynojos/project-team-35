@@ -12,10 +12,11 @@ public class Ship {
     @JsonProperty private List<Square> occupiedSquares;
     private String type;
     private int length;
-
+    private int hitLength;
 
 	public Ship(String type) {
 		this.type = type;
+		this.hitLength = 0;
 		occupiedSquares = new ArrayList<Square>();
         //Have a switch statement that makes the
         //ship a certain length depending on the size
@@ -29,6 +30,13 @@ public class Ship {
         }
 	}
 
+	public void setHitLength(int i){
+	    hitLength = i;
+    }
+
+    public int getHitLength(){
+	    return hitLength;
+    }
 
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
