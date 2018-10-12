@@ -41,4 +41,75 @@ public class GameTest {
         assertTrue(isVertical || !isVertical);
     }
 
+    @Test
+    public void testPlaceShip() {
+
+        // Set up
+        Game game = new Game();
+
+        // Test: Place valid ship (true)
+        boolean place = game.placeShip(new Ship("MINESWEEPER"), 1, 'A', false);
+        assertTrue( place );
+
+        // Test: Place ship on top of another ship
+        place = game.placeShip(new Ship("BATTLESHIP"), 1, 'A', false);
+        assertFalse( place );
+
+        // Test: Place battleship
+        place = game.placeShip(new Ship("BATTLESHIP"), 2, 'A', false);
+        assertTrue( place );
+
+        // Test: Place ship outside of bounds
+        place = game.placeShip(new Ship("DESTROYER"), 0, 'Z', true);
+        assertFalse( place );
+
+        // Test: Place destroyer
+        place = game.placeShip(new Ship("DESTROYER"), 3, 'A', false);
+        assertTrue( place );
+
+        // Test: Duplicate ship placement
+        place = game.placeShip(new Ship("MINESWEEPER"), 4,'A', false);
+        assertFalse( place );
+        place = game.placeShip(new Ship("DESTROYER"), 5,'A', false);
+        assertFalse( place );
+        place = game.placeShip(new Ship("BATTLESHIP"), 6,'A', false);
+        assertFalse( place );
+    }
+
+    @Test
+    public void testAttack() {
+
+        // Set up
+        Game game = new Game();
+
+        // Test: Valid attack (true)
+        boolean attack = game.attack(1, 'A');
+        assertTrue( attack );
+
+        // Test: Duplicate attack (false)
+        attack = game.attack(1, 'A');
+        assertFalse( attack );
+
+        // Test: Invalid char (false)
+        attack = game.attack(1, 'Z');
+        assertFalse( attack );
+
+        // Test: Invalid int (false)
+        attack = game.attack(50, 'B');
+        assertFalse( attack );
+
+        // Test: Invalid char (false)
+        attack = game.attack(1, '5');
+        assertFalse( attack );
+    }
+
+    @Test
+    public void testAlphabet() {
+        Game game = new Game();
+
+        String alphabet = game.getAlphabet();
+        String testAlhpa = "ABCDEFGHIJ";
+
+        assertTrue( alphabet == testAlhpa );
+    }
 }

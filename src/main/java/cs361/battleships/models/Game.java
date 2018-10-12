@@ -28,6 +28,11 @@ public class Game {
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
     public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
+
+        // Error Handling: Checking bounds of x and y
+        if(x < 1 || x > 10 || y < 'A' || y > 'J')
+            return false;
+
         //separate player ship from opponent ship
         boolean successful = playersBoard.placeShip(ship, x, y, isVertical);
         if (!successful)
