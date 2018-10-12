@@ -17,10 +17,18 @@ public class SquareTest {
         square1.setColumn('A');
         assertTrue(square1.getRow() == 1);
         assertTrue(square1.getColumn() == 'A');
+        assertFalse(square1.getRow() == 9);
+        assertFalse(square1.getColumn() == 'Z');
+        assertFalse(square1.getRow() != 1);
+        assertFalse(square1.getColumn() != 'A');
 
         // Test: Override constructor, getRow, getColumn
         Square square = new Square(1, 'A');
         assertTrue(square.getRow() == 1);
         assertTrue(square.getColumn() == 'A');
+        assertFalse(square.getRow() == 9);
+        assertFalse(square.getColumn() == 'Z');
+        assertFalse(square.getRow() != 1);
+        assertFalse(square.getColumn() != 'A');
     }
 }
