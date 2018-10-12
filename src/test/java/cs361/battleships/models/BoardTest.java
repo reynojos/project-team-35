@@ -17,6 +17,12 @@ public class BoardTest {
         Board board = new Board();
         Board board2 = new Board();
 
+        // Make sure we can't place a ship out of bounds
+        // col
+        assertFalse(board.placeShip(new Ship("DESTROYER"), 10, 'A', true));
+        // row
+        assertFalse(board.placeShip(new Ship("DESTROYER"), 1, 'J', false));
+
         // place a ship on the board
         board.placeShip(new Ship("DESTROYER"), 1, 'A', true);
 
