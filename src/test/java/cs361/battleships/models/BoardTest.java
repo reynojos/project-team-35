@@ -15,6 +15,8 @@ public class BoardTest {
         // set up board for testing.
         Board board = new Board();
         board.placeShip(new Ship("MINESWEEPER"), 1, 'A', false);
+        board.placeShip(new Ship("DESTROYER"), 9, 'A', false);
+        board.placeShip(new Ship("BATTLESHIP"), 10, 'A', false);
 
         //test barely miss
         assertTrue(board.attack(2, 'A').getResult() == AttackStatus.MISS);
@@ -27,6 +29,21 @@ public class BoardTest {
 
         //test out of bounds/invalid
         assertTrue(board.attack(0, 'A').getResult() == AttackStatus.INVALID);
+
+        // Test sunken
+        assertTrue(board.attack(1, 'B').getResult() == AttackStatus.SUNK);
+
+        // Test sunk set up for surrender
+        assertTrue(board.attack(9, 'A').getResult() == AttackStatus.HIT);
+        assertTrue(board.attack(9, 'B').getResult() == AttackStatus.HIT);
+        assertTrue(board.attack(9, 'C').getResult() == AttackStatus.SUNK);
+
+        // Test surrender
+        assertTrue(board.attack(10, 'A').getResult() == AttackStatus.HIT);
+        assertTrue(board.attack(10, 'B').getResult() == AttackStatus.HIT);
+        assertTrue(board.attack(10, 'C').getResult() == AttackStatus.HIT);
+        assertTrue(board.attack(10, 'D').getResult() == AttackStatus.SURRENDER);
+
     }
 
     @Test
