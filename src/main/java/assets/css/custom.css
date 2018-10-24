@@ -75,15 +75,18 @@
     margin: auto;
 }
 
-.numbers tr {
-    border: 1px solid black;
-    height: 28px;
+.table tr {
+    height: 29px;
 }
 
-.numbers td {
-    border: 1px solid black;
-    width: 28px;
+.table th {
+    text-align: center;
 }
+
+.letters th{
+    width: 29px;
+}
+
 /*------------------ Numbers -------------------*/
 
 /*------------------ Ship status -------------------*/
