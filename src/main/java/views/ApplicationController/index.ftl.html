@@ -2,20 +2,33 @@
 <@layout.myLayout "Home page">    
 
 
-<h1>The Battleship game</h1>
+<h1>Battleships for Fun</h1>
 
-<table id="opponent" class="battleGrid">
-</table>
+<div class="bf bfPlayer1">
+    <div class="bfGap">
+        <div class="bfTable">
+            <table id="player" class="battleGrid">
+            </table>
+        </div>
+    </div>
+</div>
 
-<table id="player" class="battleGrid">
-</table>
+<div class="bf bfPlayer2">
+    <div class="bfGap">
+        <table id="opponent" class="battleGrid">
+        </table>
+    </div>
+</div>
 
-<ul>
-    <li><button id="place_minesweeper">Place Minesweeper</button></li>
-    <li><button id="place_destroyer">Place Destroyer</button></li>
-    <li><button id="place_battleship">Place Battleship</button></li>
-    <li><input type="checkbox" id="is_vertical">Vertical</input></li>
-</ul>
+<div id="placement">
+    <ul>
+        <li><button id="place_minesweeper">Place Minesweeper</button></li>
+        <li><button id="place_destroyer">Place Destroyer</button></li>
+        <li><button id="place_battleship">Place Battleship</button></li>
+        <li><input type="checkbox" id="is_vertical">Vertical</input></li>
+    </ul>
+</div>
+
 
 <script type="text/javascript" src="/assets/game.js"></script>
 <script>
