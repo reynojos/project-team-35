@@ -131,6 +131,11 @@ function cellClick() {
     let col = String.fromCharCode(this.cellIndex + 65);
     console.log(col);
     if (isSetup) {
+        if (!this.classList.contains("placed"))
+        {
+            showModal("placement");
+            return;
+        }
         sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical}, function(data) {
             game = data;
             redrawGrid();
@@ -243,7 +248,35 @@ function place(size) {
 
 }
 
+function showModal(type) {
+    let backdrop = document.getElementById('modal-back');
+    backdrop.style.display = "block";
 
+    let exit = document.createElement('button');
+    exit.id = "exit-button";
+    exit.innerHTML = "OK";
+
+    exit.addEventListener("click", function(e){
+        document.getElementById('modal').innerHTML = "";
+        let backdrop = document.getElementById('modal-back');
+        backdrop.style.display = "none";
+    });
+
+    let modal = document.getElementById('modal');
+
+    if(type != undefined){
+        let text = document.createElement("p");
+
+        if (type == "placement"){
+            text.innerText = "You must place a ship on your own board. Try again.";
+            modal.classList.add("short");
+        }
+
+        modal.appendChild(text);
+    }
+
+    modal.appendChild(exit);
+}
 
 function initGame() {
 
