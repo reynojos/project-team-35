@@ -57,7 +57,7 @@
     vertical-align: baseline;
 }
 
-td:hover {
+.clickable td:hover {
     background-color: gray;
 }
 
@@ -97,6 +97,7 @@ td:hover {
     margin-top: 100px;
     background-color:rgba(250,250,250,1);
     text-align:center
+    border: red 3px solid;
 }
 
 #modal.short{
