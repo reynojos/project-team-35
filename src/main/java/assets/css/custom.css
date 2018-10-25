@@ -1,6 +1,8 @@
 /* Add additional stylesheets below
 -------------------------------------------------- */
 
+/*------------------ Battleship boards -------------------*/
+
 .battleGrid {
     border: 1px solid black;
     border-spacing: 0px;
@@ -23,8 +25,7 @@
 
 .bf {
     position: relative;
-    width: 50%;
-
+    width: 49%;
 }
 
 .bfPlayer1 {
@@ -53,11 +54,47 @@
     float: left;
 }
 
-#placement {
-    vertical-align: baseline;
+/*------------------ Battleship boards -------------------*/
+
+/*------------------ Rows -------------------*/
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
 }
 
+/*------------------ Rows -------------------*/
+
+/*------------------ Numbers / Letters -------------------*/
+.numbers {
+    width: 2%;
+    float: left;
+    margin: 40px 0;
+}
+
+.table {
+    margin: auto;
+}
+
+.table tr {
+    height: 29px;
+}
+
+.table th {
+    text-align: center;
+}
+
+.letters th{
+    width: 29px;
+}
+
+/*------------------ Numbers -------------------*/
+
+/*------------------ Ship status -------------------*/
+
 .clickable td:hover {
+
     background-color: gray;
 }
 
@@ -81,6 +118,15 @@
     background-color: blue;
 }
 
+/*------------------ Ship status -------------------*/
+
+/*------------------ Ship placement -------------------*/
+
+#placement {
+    vertical-align: baseline;
+}
+
+/*------------------ Ship placement -------------------*/
 #modal-back{
     background-color:rgba(0,0,0,.5);
     width:100vw;
