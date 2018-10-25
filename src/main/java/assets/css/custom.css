@@ -25,7 +25,7 @@
 
 .bf {
     position: relative;
-    width: 49%;
+    width: 29%;
 }
 
 .bfPlayer1 {
@@ -33,7 +33,7 @@
 }
 
 .bfPlayer2 {
-    float: right;
+    float: left;
 }
 
 .bfGap {
@@ -43,13 +43,13 @@
 }
 
 .bfPlayer1 .bfGap {
-    margin-left: 130px;
+    margin-left: 10px;
     margin-right: 0px;
-    float: right;
+    float: left;
 }
 
 .bfPlayer2 .bfGap {
-    margin-right: 120px;
+    margin-right: 10px;
     margin-left: 0px;
     float: left;
 }
@@ -68,7 +68,7 @@
 
 /*------------------ Numbers / Letters -------------------*/
 .numbers {
-    width: 2%;
+    width: 20px;
     float: left;
     margin: 40px 0;
 }
@@ -159,3 +159,56 @@ footer {
     font-size: 10px;
     float: right;
 }
+
+/*------------------ Score/status boards -------------------*/
+.scoreboard-player1 {
+
+ float: left;
+ width: 20%;
+ margin: 125px 0;
+}
+
+.scoreboard-player2 {
+
+ float: left;
+ width: 20%;
+ margin: 125px 0;
+}
+
+.ships-scoreboard {
+border: 2px solid black;
+}
+
+
+.hits-and-miss-player1{
+border: 2px solid black;
+margin: 10px 0;
+}
+
+
+.hits-and-miss-player2{
+border: 2px solid black;
+margin: 38px 0;
+}
+
+/*------------------change log box -------------------*/
+
+ .changelog-wrapper{
+    text-align: center;
+ }
+
+ .player1-changelog{
+ border: 1px solid black;
+ width: 48%;
+ height: 50px;
+ float: left;
+
+ }
+
+ .player2-changelog{
+ border: 1px solid black;
+ width: 48%;
+ height: 50px;
+ float: right;
+
+ }

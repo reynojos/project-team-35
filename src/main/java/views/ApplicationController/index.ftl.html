@@ -2,9 +2,42 @@
 <@layout.myLayout "Home page">    
 
 
-<h1>Battleships for Fun</h1>
+<h1 align="center">Battleships for Fun</h1>
+
+<div class="changelog-wrapper">
+    <div class="player1-changelog"> change log...</div>
+
+    <div class="player2-changelog"> change log...</div>
+</div>
 
 <div class="row">
+
+<div class="scoreboard-player1">
+    <div class="ships-scoreboard">
+
+        <div class="row" id="placement">
+            <ul><h2>Ships</h2>
+                <li><button id="place_minesweeper">Place Minesweeper</button></li>
+                <li><button id="place_destroyer">Place Destroyer</button></li>
+                <li><button id="place_battleship">Place Battleship</button></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <input type="checkbox" id="is_vertical">Vertical</input>
+
+    <div class="hits-and-miss-player1">
+        <ul>
+            <li>Hits:  </li>
+            <li>Miss: </li>
+        </ul>
+    </div>
+    <h2 align="left">Player1</h2>
+</div>
+
+
+
     <div class="bf bfPlayer1">
         <div class="bfGap">
             <div class="bfTable">
@@ -146,17 +179,33 @@
             </table>
         </div>
     </div>
+
+
+    <div class="scoreboard-player2">
+        <div class="ships-scoreboard">
+
+            <div class="row" id="placement">
+                <ul><h2>Ships</h2>
+                    <li>Minesweeper</li>
+                    <li>Destroyer</li>
+                    <li>Battleship</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="hits-and-miss-player2">
+            <ul>
+                <li>Hits:  </li>
+                <li>Miss: </li>
+            </ul>
+        </div>
+        <h2 align="right">Player2</h2>
+    </div>
 </div>
 
 
-<div class="row" id="placement">
-    <ul>
-        <li><button id="place_minesweeper">Place Minesweeper</button></li>
-        <li><button id="place_destroyer">Place Destroyer</button></li>
-        <li><button id="place_battleship">Place Battleship</button></li>
-        <li><input type="checkbox" id="is_vertical">Vertical</input></li>
-    </ul>
-</div>
+
 
 <div id="modal-back"><div id="modal"></div></div>
 
