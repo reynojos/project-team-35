@@ -1,12 +1,16 @@
 var isSetup = true;
 
-var placedShips = 0;
+var placedShips = [];
 
 var game;
 
 var shipType;
 
 var vertical;
+
+let out;
+
+let overlap;
 
 
 
@@ -54,7 +58,7 @@ function markHits(board, elementId, surrenderText) {
 
         else if (attack.result === "SURRENDER")
 
-            alert(surrenderText);
+            showModal(surrenderText);
 
         document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
 
@@ -88,9 +92,9 @@ function redrawGrid() {
 
     }));
 
-    markHits(game.opponentsBoard, "opponent", "You won the game");
+    markHits(game.opponentsBoard, "opponent", "won");
 
-    markHits(game.playersBoard, "player", "You lost the game");
+    markHits(game.playersBoard, "player", "lost");
 
 }
 
@@ -131,23 +135,58 @@ function cellClick() {
     let col = String.fromCharCode(this.cellIndex + 65);
     console.log(col);
     if (isSetup) {
+        if (shipType == undefined || placedShips.includes(shipType))
+        {
+            showModal("placement-ship");
+            return;
+        }
+        else if (overlap){
+            showModal("overlap");
+            return;
+        }
+        else if (!this.classList.contains("placed"))
+        {
+            showModal("placement-board");
+            return;
+        }
+        else if (out){
+            showModal("bounds");
+            return;
+        }
+
         sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical}, function(data) {
             game = data;
             redrawGrid();
 
-            placedShips++;
+            placedShips.push(shipType);
 
-            if (placedShips == 3) {
+            if (placedShips.length == 3) {
 
                 isSetup = false;
 
                 registerCellListener((e) => {});
 
+                document.getElementById('player').classList.remove("clickable");
+                document.getElementById('opponent').classList.add("clickable");
+
             }
+
+            shipType = undefined;
 
         });
 
     } else {
+
+        if (!this.parentElement.parentElement.classList.contains("clickable")){
+            showModal("guess-board");
+            return;
+        }
+
+        else if (this.classList.contains("miss") || this.classList.contains("hit")){
+            showModal("guess-double");
+            return;
+        }
+
 
         sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
 
@@ -203,6 +242,9 @@ function place(size) {
 
         let table = document.getElementById("player");
 
+        out = false;
+        overlap = false;
+
         for (let i=0; i<size; i++) {
 
             let cell;
@@ -214,6 +256,8 @@ function place(size) {
                 if (tableRow === undefined) {
 
                     // ship is over the edge; let the back end deal with it
+
+                    out = true;
 
                     break;
 
@@ -231,19 +275,94 @@ function place(size) {
 
                 // ship is over the edge; let the back end deal with it
 
+                out = true;
+
                 break;
 
+            }
+
+            if (cell.classList.contains("occupied")){
+                overlap = true;
             }
 
             cell.classList.toggle("placed");
 
         }
 
+
+
     }
 
 }
 
+function hideModal(){
+    document.getElementById('modal').innerHTML = "";
+    let backdrop = document.getElementById('modal-back');
+    backdrop.style.display = "none";
+}
 
+function showModal(type) {
+    let backdrop = document.getElementById('modal-back');
+    backdrop.style.display = "block";
+
+    let exit = document.createElement('button');
+    exit.classList.add("exit-button");
+    exit.innerHTML = "OK";
+
+    exit.addEventListener("click", hideModal);
+
+    let modal = document.getElementById('modal');
+
+    if(type != undefined){
+        let text = document.createElement("p");
+        text.classList.add("modal-text");
+
+        if (type == "placement-board"){
+            text.innerText = "You must place a ship on your own board. Try again.";
+            modal.classList.add("short");
+        }
+        else if (type == "placement-ship"){
+            text.innerText = "Select a new ship to place.";
+            modal.classList.add("short");
+        }
+        else if (type == "guess-double"){
+            text.innerText = "Guess in a location that you have not guessed before.";
+            modal.classList.add("short");
+        }
+        else if (type == "guess-board"){
+            text.innerText = "You must place your guess on the opponent board.";
+            modal.classList.add("short");
+        }
+        else if (type == "bounds"){
+            text.innerText = "You must place your ship within the bounds of your board.";
+            modal.classList.add("short");
+        }
+        else if (type == "overlap"){
+            text.innerText = "You can't overlap ships.";
+            modal.classList.add("short");
+        }
+        else if (type == "won" || type == "lost") {
+            text.innerText = "You "+type+"!";
+            modal.classList.add("short");
+
+            exit.removeEventListener("click", hideModal);
+            exit.addEventListener("click", function(e){
+                window.location.href = "/";
+            });
+        }
+        else {
+            text.innerText = type;
+            modal.classList.add("short");
+
+        }
+
+        if (document.getElementsByClassName("modal-text").length == 0)
+            modal.appendChild(text);
+    }
+
+    if (document.getElementsByClassName("exit-button").length == 0)
+        modal.appendChild(exit);
+}
 
 function initGame() {
 
