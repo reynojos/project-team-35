@@ -199,16 +199,14 @@ margin: 38px 0;
 
  .player1-changelog{
  border: 1px solid black;
- width: 48%;
- height: 50px;
- float: left;
-
+ width: 400px;
+ height: 75px;
+ display: inline-block;
  }
 
  .player2-changelog{
  border: 1px solid black;
- width: 48%;
- height: 50px;
- float: right;
-
+ width: 400px;
+ height: 75px;
+ display: inline-block;
  }

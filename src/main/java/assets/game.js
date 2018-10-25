@@ -36,6 +36,38 @@ function makeGrid(table, isPlayer) {
 
 }
 
+function printAction(player, attack){
+    var row = attack.location['row'];
+    var column = attack.location['column'];
+    var status = attack.result;
+
+    var log, text;
+
+    /*Player is equal to the board that is being attacked. SO if opponent, the player is attacking the opponent ship*/
+    if(player == "opponent"){
+        log_container = document.getElementById("player-log");
+        log = document.getElementById("player-status");
+        log.innerHTML = "";
+
+        text = document.createElement("p");
+        text.appendChild(document.createTextNode('You attacked ' + column + ' ' + row + ' and it resulted in a ' + status + '.'));
+        log.appendChild(text);
+
+        log_container.scrollTop = log.scrollHeight;
+    }
+
+    else if(player == "player"){
+        log_container = document.getElementById("opponent-log");
+        log = document.getElementById("opponent-status");
+        log.innerHTML = "";
+
+        text = document.createElement("p");
+        text.appendChild(document.createTextNode('Your opponent has attacked ' + column + ' ' + row + ' and it resulted in a ' + status + '.'));
+        log.appendChild(text);
+
+        log_container.scrollTop = log.scrollHeight;
+    }
+}
 
 
 function markHits(board, elementId, surrenderText) {
@@ -45,23 +77,16 @@ function markHits(board, elementId, surrenderText) {
         let className;
 
         if (attack.result === "MISS")
-
             className = "miss";
-
         else if (attack.result === "HIT")
-
             className = "hit";
-
         else if (attack.result === "SUNK")
-
             className = "hit"
-
         else if (attack.result === "SURRENDER")
-
             showModal(surrenderText);
-
         document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
 
+        printAction(elementId, attack);
     });
 
 }
@@ -133,7 +158,7 @@ function registerCellListener(f) {
 function cellClick() {
     let row = this.parentNode.rowIndex + 1;
     let col = String.fromCharCode(this.cellIndex + 65);
-    console.log(col);
+
     if (isSetup) {
         if (shipType == undefined || placedShips.includes(shipType))
         {
@@ -157,22 +182,14 @@ function cellClick() {
         sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical}, function(data) {
             game = data;
             redrawGrid();
-
             placedShips.push(shipType);
-
             if (placedShips.length == 3) {
-
                 isSetup = false;
-
                 registerCellListener((e) => {});
-
                 document.getElementById('player').classList.remove("clickable");
                 document.getElementById('opponent').classList.add("clickable");
-
             }
-
             shipType = undefined;
-
         });
 
     } else {
@@ -181,21 +198,14 @@ function cellClick() {
             showModal("guess-board");
             return;
         }
-
         else if (this.classList.contains("miss") || this.classList.contains("hit")){
             showModal("guess-double");
             return;
         }
-
-
         sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
-
             game = data;
-
             redrawGrid();
-
         })
-
     }
 
 }
