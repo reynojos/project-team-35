@@ -458,6 +458,17 @@ function showModal(type) {
                 window.location.href = "/";
             });
         }
+        else if (type == "help"){
+                    text.innerText = "Welcome to our battleship game!" +
+                    "\n\nTo play, start by selecting a ship to place and click a spot on player1's board." +
+                    "\nKeep picking until you have place all 3 ships." +
+                    "\n\nNow it's time to attack!" +
+                    "\nClick a spot on player2's board to place a guess."+
+                    "\nKeep guessing until either player wins."+
+                    "\n\nIf you would like to play again, click ok on the end of game popup.";
+
+                    modal.classList.add("long");
+                }
         else {
             text.innerText = type;
             modal.classList.add("short");
@@ -477,6 +488,10 @@ function initGame() {
     makeGrid(document.getElementById("opponent"), false);
 
     makeGrid(document.getElementById("player"), true);
+
+    document.getElementById("help").addEventListener("click", function(e){
+        showModal("help");
+    });
 
     document.getElementById("place_minesweeper").addEventListener("click", function(e) {
 
