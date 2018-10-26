@@ -12,7 +12,17 @@ let out;
 
 let overlap;
 
+let playerScore = {
+    hit:0,
+    miss:0,
+    sunk:0,
+};
 
+let enemyScore = {
+    hit:0,
+    miss:0,
+    sunk:0,
+};
 
 function makeGrid(table, isPlayer) {
 
@@ -69,25 +79,55 @@ function printAction(player, attack){
     }
 }
 
+function updateScore(){
+    document.getElementById("player1-hits").innerText = playerScore.hit;
+    document.getElementById("player1-miss").innerText = playerScore.miss;
+    document.getElementById("player1-sunk").innerText = playerScore.sunk;
+    document.getElementById("player2-hits").innerText = enemyScore.hit;
+    document.getElementById("player2-miss").innerText = enemyScore.miss;
+    document.getElementById("player2-sunk").innerText = enemyScore.sunk;
+}
 
 function markHits(board, elementId, surrenderText) {
+
+    hits = 0;
+    miss = 0;
+    sunk = 0;
 
     board.attacks.forEach((attack) => {
 
         let className;
 
-        if (attack.result === "MISS")
+        if (attack.result === "MISS"){
             className = "miss";
-        else if (attack.result === "HIT")
+            miss++;
+        }
+        else if (attack.result === "HIT"){
             className = "hit";
-        else if (attack.result === "SUNK")
+            hits++;
+        }
+        else if (attack.result === "SUNK"){
             className = "hit"
+            sunk++;
+            hits++;
+        }
         else if (attack.result === "SURRENDER")
             showModal(surrenderText);
         document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
 
         printAction(elementId, attack);
     });
+
+    if (elementId != "player"){
+        playerScore.miss = miss;
+        playerScore.hit = hits;
+        playerScore.sunk = sunk
+    }
+    else{
+        enemyScore.miss = miss;
+        enemyScore.hit = hits;
+        enemyScore.sunk = sunk;
+    }
 
 }
 
@@ -120,6 +160,8 @@ function redrawGrid() {
     markHits(game.opponentsBoard, "opponent", "won");
 
     markHits(game.playersBoard, "player", "lost");
+
+    updateScore();
 
 }
 
