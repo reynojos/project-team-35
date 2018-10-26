@@ -13,6 +13,14 @@
     position: relative;
 }
 
+a:link{
+    color: black;
+}
+
+a.visited{
+    color: black;
+}
+
 .battleGrid tr {
     border: 1px solid black;
     height: 30px;
