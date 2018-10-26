@@ -88,6 +88,42 @@ function updateScore(){
     document.getElementById("player2-sunk").innerText = enemyScore.sunk;
 }
 
+function crossOutShip(attack, player){
+    var shipSunk = attack.ship['type'];
+    /*After a sunk is detected, find the ship and strike out the name of the ship sunk*/
+    if(player == "player"){
+        if(shipSunk == "MINESWEEPER"){
+            var b = document.getElementById("place_minesweeper");
+            b.innerHTML = "<strike>Minesweeper</strike>";
+        }
+        else if(shipSunk == "Battleship"){
+            var b = document.getElementById("place_battleship");
+            b.innerHTML = "<strike>Battleship</strike>";
+        }
+
+        else if(shipSunk == "DESTROYER"){
+            var b = document.getElementById("place_destroyer");
+            b.innerHTML = "<strike>Destroyer</strike>";
+        }
+    }
+
+    if(player == "opponent"){
+        if(shipSunk == "MINESWEEPER"){
+            var b = document.getElementById("op_minesweeper");
+            b.innerHTML = "<strike>Minesweeper</strike>";
+        }
+        else if(shipSunk == "BATTLESHIP"){
+            var b = document.getElementById("op_battleship");
+            b.innerHTML = "<strike>Battleship</strike>";
+        }
+
+        else if(shipSunk == "DESTROYER"){
+            var b = document.getElementById("op_destroyer");
+            b.innerHTML = "<strike>Destroyer</strike>";
+        }
+    }
+}
+
 function markHits(board, elementId, surrenderText) {
 
     hits = 0;
@@ -110,6 +146,7 @@ function markHits(board, elementId, surrenderText) {
             className = "hit"
             sunk++;
             hits++;
+            crossOutShip(attack, elementId);
         }
         else if (attack.result === "SURRENDER")
             showModal(surrenderText);
@@ -192,10 +229,28 @@ function registerCellListener(f) {
     }
 
     oldListener = f;
-
 }
 
+function removeLink(shipType){
+    /*Once ship has been placed, remove link and replace string inside based off type*/
+    if(shipType == "MINESWEEPER"){
+        var a = document.getElementById("place_minesweeper");
+        a.innerText = "Minesweeper";
+        a.removeAttribute("href");
+    }
 
+    else if (shipType == "BATTLESHIP"){
+        var a = document.getElementById("place_battleship");
+        a.innerText = "Battleship";
+        a.removeAttribute("href");
+    }
+
+    else if (shipType == "DESTROYER"){
+        var a = document.getElementById("place_destroyer");
+        a.innerText = "Destroyer";
+        a.removeAttribute("href");
+    }
+}
 
 function cellClick() {
     let row = this.parentNode.rowIndex + 1;
@@ -225,6 +280,7 @@ function cellClick() {
             game = data;
             redrawGrid();
             placedShips.push(shipType);
+            removeLink(shipType);
             if (placedShips.length == 3) {
                 isSetup = false;
                 registerCellListener((e) => {});
