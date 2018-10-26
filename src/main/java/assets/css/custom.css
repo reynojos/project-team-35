@@ -36,7 +36,7 @@ a.visited{
     top: 400px;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 710px;
+    width: 769px;
 }
 
 .bf {
@@ -84,9 +84,8 @@ a.visited{
 
 /*------------------ Numbers / Letters -------------------*/
 .numbers {
-    width: 20px;
     float: left;
-    margin: 40px 0;
+    margin: 40px 30px;
 }
 
 .table {
