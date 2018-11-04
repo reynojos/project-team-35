@@ -25,21 +25,14 @@ let enemyScore = {
 };
 
 function makeGrid(table, isPlayer) {
-
     for (i=0; i<10; i++) {
-
         let row = document.createElement('tr');
-
         for (j=0; j<10; j++) {
-
             let column = document.createElement('td');
-
             column.addEventListener("click", cellClick);
-
             row.appendChild(column);
 
         }
-
         table.appendChild(row);
 
     }
@@ -171,38 +164,25 @@ function markHits(board, elementId, surrenderText) {
 
 
 function redrawGrid() {
-
     Array.from(document.getElementById("opponent").childNodes).forEach((row) => row.remove());
-
     Array.from(document.getElementById("player").childNodes).forEach((row) => row.remove());
-
     makeGrid(document.getElementById("opponent"), false);
-
     makeGrid(document.getElementById("player"), true);
 
     if (game === undefined) {
-
         return;
-
     }
 
 
 
     game.playersBoard.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
-
         document.getElementById("player").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("occupied");
-
     }));
 
     markHits(game.opponentsBoard, "opponent", "won");
-
     markHits(game.playersBoard, "player", "lost");
-
     updateScore();
-
 }
-
-
 
 var oldListener;
 
@@ -211,21 +191,13 @@ function registerCellListener(f) {
     let el = document.getElementById("player");
 
     for (i=0; i<10; i++) {
-
         for (j=0; j<10; j++) {
-
             let cell = el.rows[i].cells[j];
-
             cell.removeEventListener("mouseover", oldListener);
-
             cell.removeEventListener("mouseout", oldListener);
-
             cell.addEventListener("mouseover", f);
-
             cell.addEventListener("mouseout", f);
-
         }
-
     }
 
     oldListener = f;
@@ -313,41 +285,27 @@ function cellClick() {
 function sendXhr(method, url, data, handler) {
 
     var req = new XMLHttpRequest();
-
     req.addEventListener("load", function(event) {
-
         if (req.status != 200) {
-
             alert("Cannot complete the action");
-
             return;
 
         }
-
         handler(JSON.parse(req.responseText));
-
     });
 
     req.open(method, url);
-
     req.setRequestHeader("Content-Type", "application/json");
-
     req.send(JSON.stringify(data));
-
 }
 
 
 
 function place(size) {
-
     return function() {
-
         let row = this.parentNode.rowIndex;
-
         let col = this.cellIndex;
-
         vertical = document.getElementById("is_vertical").checked;
-
         let table = document.getElementById("player");
 
         out = false;
