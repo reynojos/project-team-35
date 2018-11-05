@@ -25,21 +25,14 @@ let enemyScore = {
 };
 
 function makeGrid(table, isPlayer) {
-
     for (i=0; i<10; i++) {
-
         let row = document.createElement('tr');
-
         for (j=0; j<10; j++) {
-
             let column = document.createElement('td');
-
             column.addEventListener("click", cellClick);
-
             row.appendChild(column);
 
         }
-
         table.appendChild(row);
 
     }
@@ -171,38 +164,25 @@ function markHits(board, elementId, surrenderText) {
 
 
 function redrawGrid() {
-
     Array.from(document.getElementById("opponent").childNodes).forEach((row) => row.remove());
-
     Array.from(document.getElementById("player").childNodes).forEach((row) => row.remove());
-
     makeGrid(document.getElementById("opponent"), false);
-
     makeGrid(document.getElementById("player"), true);
 
     if (game === undefined) {
-
         return;
-
     }
 
 
 
     game.playersBoard.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
-
         document.getElementById("player").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("occupied");
-
     }));
 
     markHits(game.opponentsBoard, "opponent", "won");
-
     markHits(game.playersBoard, "player", "lost");
-
     updateScore();
-
 }
-
-
 
 var oldListener;
 
@@ -211,21 +191,13 @@ function registerCellListener(f) {
     let el = document.getElementById("player");
 
     for (i=0; i<10; i++) {
-
         for (j=0; j<10; j++) {
-
             let cell = el.rows[i].cells[j];
-
             cell.removeEventListener("mouseover", oldListener);
-
             cell.removeEventListener("mouseout", oldListener);
-
             cell.addEventListener("mouseover", f);
-
             cell.addEventListener("mouseout", f);
-
         }
-
     }
 
     oldListener = f;
@@ -313,80 +285,52 @@ function cellClick() {
 function sendXhr(method, url, data, handler) {
 
     var req = new XMLHttpRequest();
-
     req.addEventListener("load", function(event) {
-
         if (req.status != 200) {
-
             alert("Cannot complete the action");
-
             return;
 
         }
-
         handler(JSON.parse(req.responseText));
-
     });
 
     req.open(method, url);
-
     req.setRequestHeader("Content-Type", "application/json");
-
     req.send(JSON.stringify(data));
-
 }
 
 
 
 function place(size) {
-
     return function() {
-
         let row = this.parentNode.rowIndex;
-
         let col = this.cellIndex;
-
         vertical = document.getElementById("is_vertical").checked;
-
         let table = document.getElementById("player");
 
         out = false;
         overlap = false;
 
         for (let i=0; i<size; i++) {
-
             let cell;
-
+            /*After ship selection, check if the object is orientated to be veritcal or not*/
             if(vertical) {
-
                 let tableRow = table.rows[row+i];
-
                 if (tableRow === undefined) {
-
                     // ship is over the edge; let the back end deal with it
-
                     out = true;
-
                     break;
-
                 }
-
                 cell = tableRow.cells[col];
-
-            } else {
-
+            }
+            else {
                 cell = table.rows[row].cells[col+i];
-
             }
 
             if (cell === undefined) {
-
                 // ship is over the edge; let the back end deal with it
-
                 out = true;
-
                 break;
-
             }
 
             if (cell.classList.contains("occupied")){
@@ -394,11 +338,7 @@ function place(size) {
             }
 
             cell.classList.toggle("placed");
-
         }
-
-
-
     }
 
 }
@@ -466,15 +406,12 @@ function showModal(type) {
                     "\nClick a spot on player2's board to place a guess."+
                     "\nKeep guessing until either player wins."+
                     "\n\nIf you would like to play again, click ok on the end of game popup.";
-
                     modal.classList.add("long");
                 }
         else {
             text.innerText = type;
             modal.classList.add("short");
-
         }
-
         if (document.getElementsByClassName("modal-text").length == 0)
             modal.appendChild(text);
     }
@@ -484,43 +421,32 @@ function showModal(type) {
 }
 
 function initGame() {
-
+    /*Initialize the player and opponent boards*/
     makeGrid(document.getElementById("opponent"), false);
-
     makeGrid(document.getElementById("player"), true);
 
+    /*Add click event listeners to modal, and ship placers*/
     document.getElementById("help").addEventListener("click", function(e){
         showModal("help");
     });
 
     document.getElementById("place_minesweeper").addEventListener("click", function(e) {
-
         shipType = "MINESWEEPER";
-
        registerCellListener(place(2));
-
     });
 
     document.getElementById("place_destroyer").addEventListener("click", function(e) {
-
         shipType = "DESTROYER";
-
        registerCellListener(place(3));
-
     });
 
     document.getElementById("place_battleship").addEventListener("click", function(e) {
-
         shipType = "BATTLESHIP";
-
        registerCellListener(place(4));
-
     });
 
+    /*Send a request to our backend*/
     sendXhr("GET", "/game", {}, function(data) {
-
         game = data;
-
     });
-
 };
