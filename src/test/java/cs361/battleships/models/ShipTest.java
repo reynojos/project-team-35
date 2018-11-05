@@ -2,6 +2,7 @@ package cs361.battleships.models;
 
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -60,6 +61,7 @@ public class ShipTest {
 
         if (type == "MINESWEEPER"){
             assertTrue(newShip.getLength() == 2);
+            assertTrue(squares.get(0).isCaptainsQ());
         }
         if (type == "DESTROYER"){
             assertTrue(newShip.getLength() == 3);

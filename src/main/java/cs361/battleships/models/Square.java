@@ -6,13 +6,26 @@ public class Square {
 
 	private int row;
 	private char column;
+	private boolean captainsQ;
 
-	public Square(){}
+	public Square(){
+		captainsQ = false;
+	}
 
 	public Square(int row, char column) {
 		this.row = row;
 		this.column = column;
+		this.captainsQ = false;
 	}
+	public Square(int row, char column, boolean captainsQ) {
+		this.row = row;
+		this.column = column;
+		this.captainsQ = captainsQ;
+	}
+
+	public boolean isCaptainsQ(){ return captainsQ; }
+
+	public void setCaptainsQ(boolean isQ){ this.captainsQ = isQ; }
 
 	public char getColumn() {
 		return column;

@@ -39,7 +39,7 @@ public class Board {
 		// Check every ship
 		for (Ship currentShip: ships){
 
-			//Check every exisiting ship and make sure it has not been placed
+			//Check every existing ship and make sure it has not been placed
 			if (ship.getType().equals(currentShip.getType())){
 				return false;
 			}

@@ -58,7 +58,7 @@ public class Ship {
         return -1;
     }
 
-	public void place(Square pos, Boolean isVertical){ ;
+	public void place(Square pos, Boolean isVertical){
 
         int length=getLength();
 
@@ -71,12 +71,24 @@ public class Ship {
         if (isVertical){
             for (int i=0; i<length; i++){
                 Square newSquare = new Square(startingRow+i, startingCol);
+
+                if (type == "MINESWEEPER" && i == 0)
+                    newSquare.setCaptainsQ(true);
+                else if (type != "MINESWEEPER" && i == 1)
+                    newSquare.setCaptainsQ(true);
+
                 occupiedSquares.add(newSquare);
             }
         }
         else {
             for (int i = 0; i < length; i++) {
                 Square newSquare = new Square(startingRow, (char)(startingCol+i));
+
+                if (type == "MINESWEEPER" && i == 0)
+                    newSquare.setCaptainsQ(true);
+                else if (type != "MINESWEEPER" && i == 1)
+                    newSquare.setCaptainsQ(true);
+
                 occupiedSquares.add(newSquare);
             }
         }
