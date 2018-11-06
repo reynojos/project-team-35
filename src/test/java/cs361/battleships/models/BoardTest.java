@@ -96,6 +96,16 @@ public class BoardTest {
         // Test: If ship isn't there return false
         hit = board.hasHitShip(1, 'D');
         assertFalse( hit == AttackStatus.HIT );
+
+
+        // Test: Armor on ships destroyer and up
+        board.placeShip(new Ship("DESTROYER"), 4, 'D', false);
+        hit = board.hasHitShip(4, 'D');
+        assertTrue( hit == AttackStatus.HIT );
+        hit = board.hasHitShip(4, 'E');
+        assertTrue( hit == AttackStatus.CAPTAINHIT );
+        hit = board.hasHitShip(4, 'E');
+        assertTrue( hit == AttackStatus.SUNK );
     }
 
     @Test

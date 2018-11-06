@@ -11,6 +11,8 @@ public class Board {
 
 	private List<Result> attacks; // track the attacks that were attempted from Result class
 
+	private int sunkShips;
+
 	public static char MAXCOL = 'J';
 	public static char MAXROW = 10;
 
@@ -20,6 +22,7 @@ public class Board {
 	public Board() {
 		this.ships = new ArrayList<Ship>();
 		this.attacks = new ArrayList<Result>();
+		this.sunkShips = 0;
 	}
 
 	/*
@@ -100,6 +103,7 @@ public class Board {
 					if(x == boat_location.getRow() && y == boat_location.getColumn()){
 						if (boat_location.isCaptainsQ()){
 							if (currentShip.getType().equals("MINESWEEPER") || currentShip.isCaptainHit()) {
+								sunkShips++;
 								return AttackStatus.SUNK;
 							}
 							else {
@@ -115,6 +119,7 @@ public class Board {
 		return AttackStatus.MISS; //return false if nothing has been hit
 	}
 
+	// Check what ship has been hit
 	public Ship findHit(int x, int y){
 		//Check every ship check if it has been hit
 		for(int i = 0; i < ships.size(); i++){
@@ -164,12 +169,6 @@ public class Board {
 
 		//Make sure that the char is valid and within range
 		if(y >= 'K' || y < 'A'){
-			attempt.setResult(AttackStatus.INVALID);
-			return attempt;
-		}
-
-		//Make sure that this spot has not been previously attacked
-		if(hasBeenSelected(x, y)){
 			attempt.setResult(AttackStatus.INVALID);
 			return attempt;
 		}
