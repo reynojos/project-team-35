@@ -65,9 +65,11 @@ public class ShipTest {
         }
         if (type == "DESTROYER"){
             assertTrue(newShip.getLength() == 3);
+            assertTrue(squares.get(1).isCaptainsQ());
         }
         if (type == "BATTLESHIP"){
             assertTrue(newShip.getLength() == 4);
+            assertTrue(squares.get(1).isCaptainsQ());
         }
 
     }

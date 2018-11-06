@@ -13,20 +13,25 @@ public class Ship {
     private String type;
     private int length;
     private int hitLength;
+    private boolean captainHit;
 
 	public Ship(String type) {
 		this.type = type;
 		this.hitLength = 0;
+		this.captainHit = false;
 		occupiedSquares = new ArrayList<Square>();
         //Have a switch statement that makes the
         //ship a certain length depending on the size
 		switch(type){
             case "MINESWEEPER":
                 length = 2;
+                break;
             case "DESTROYER":
                 length = 3;
+                break;
             case "BATTLESHIP":
                 length = 4;
+                break;
         }
 	}
 
@@ -72,9 +77,9 @@ public class Ship {
             for (int i=0; i<length; i++){
                 Square newSquare = new Square(startingRow+i, startingCol);
 
-                if (type == "MINESWEEPER" && i == 0)
+                if (type.equals("MINESWEEPER") && i == 0)
                     newSquare.setCaptainsQ(true);
-                else if (type != "MINESWEEPER" && i == 1)
+                else if (!type.equals("MINESWEEPER") && i == 1)
                     newSquare.setCaptainsQ(true);
 
                 occupiedSquares.add(newSquare);
@@ -84,14 +89,24 @@ public class Ship {
             for (int i = 0; i < length; i++) {
                 Square newSquare = new Square(startingRow, (char)(startingCol+i));
 
-                if (type == "MINESWEEPER" && i == 0)
+                if (type.equals("MINESWEEPER") && i == 0)
                     newSquare.setCaptainsQ(true);
-                else if (type != "MINESWEEPER" && i == 1)
+                else if (!type.equals("MINESWEEPER") && i == 1)
                     newSquare.setCaptainsQ(true);
 
                 occupiedSquares.add(newSquare);
             }
         }
+    }
+
+    // set captain hit to true
+    public void hitCaptain(){
+	    captainHit = true;
+    }
+
+    // return whether captain has been hti
+    public boolean isCaptainHit(){
+        return captainHit;
     }
 
 	public List<Square> getOccupiedSquares() {

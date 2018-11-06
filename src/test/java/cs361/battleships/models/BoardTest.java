@@ -85,13 +85,17 @@ public class BoardTest {
         Board board = new Board();
         board.placeShip(new Ship("MINESWEEPER"), 1, 'A', false);
 
-        // Test: If ship is there return true
-        boolean hit = board.hasHitShip(1, 'A');
-        assertTrue( hit );
+        // Test: If captains quarters are there return sunk
+        AttackStatus hit = board.hasHitShip(1, 'B');
+        assertTrue( hit == AttackStatus.HIT );
+
+        // Test: If captains quarters are there return sunk
+        hit = board.hasHitShip(1, 'A');
+        assertTrue( hit == AttackStatus.SUNK );
 
         // Test: If ship isn't there return false
         hit = board.hasHitShip(1, 'D');
-        assertFalse( hit );
+        assertFalse( hit == AttackStatus.HIT );
     }
 
     @Test
