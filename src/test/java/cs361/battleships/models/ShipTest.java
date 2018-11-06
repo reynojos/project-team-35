@@ -40,7 +40,7 @@ public class ShipTest {
         if(type.equals("MINESWEEPER")){
             newShip = new Minesweeper();
         }
-        else if(type.equals("Destroyer")){
+        else if(type.equals("DESTROYER")){
             newShip = new Destroyer();
         }
         else{
