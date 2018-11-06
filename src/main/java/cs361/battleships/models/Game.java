@@ -38,7 +38,17 @@ public class Game {
         if (!successful)
             return false;
 
-        Ship opponentShip = new Ship(ship.getType());
+        Ship opponentShip;
+
+        if(ship.getType().equals("MINESWEEPER")){
+            opponentShip = new Minesweeper();
+        }
+        else if(ship.getType().equals("DESTROYER")){
+            opponentShip = new Destroyer();
+        }
+        else{
+            opponentShip = new Battleship();
+        }
 
         boolean opponentPlacedSuccessfully;
         do {

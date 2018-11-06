@@ -48,31 +48,31 @@ public class GameTest {
         Game game = new Game();
 
         // Test: Place valid ship (true)
-        boolean place = game.placeShip(new Ship("MINESWEEPER"), 1, 'A', false);
+        boolean place = game.placeShip(new Minesweeper(), 1, 'A', false);
         assertTrue( place );
 
         // Test: Place ship on top of another ship
-        place = game.placeShip(new Ship("BATTLESHIP"), 1, 'A', false);
+        place = game.placeShip(new Battleship(), 1, 'A', false);
         assertFalse( place );
 
         // Test: Place battleship
-        place = game.placeShip(new Ship("BATTLESHIP"), 2, 'A', false);
+        place = game.placeShip(new Battleship(), 2, 'A', false);
         assertTrue( place );
 
         // Test: Place ship outside of bounds
-        place = game.placeShip(new Ship("DESTROYER"), 0, 'Z', true);
+        place = game.placeShip(new Destroyer(), 0, 'Z', true);
         assertFalse( place );
 
         // Test: Place destroyer
-        place = game.placeShip(new Ship("DESTROYER"), 3, 'A', false);
+        place = game.placeShip(new Destroyer(), 3, 'A', false);
         assertTrue( place );
 
         // Test: Duplicate ship placement
-        place = game.placeShip(new Ship("MINESWEEPER"), 4,'A', false);
+        place = game.placeShip(new Minesweeper(), 4,'A', false);
         assertFalse( place );
-        place = game.placeShip(new Ship("DESTROYER"), 5,'A', false);
+        place = game.placeShip(new Destroyer(), 5,'A', false);
         assertFalse( place );
-        place = game.placeShip(new Ship("BATTLESHIP"), 6,'A', false);
+        place = game.placeShip(new Battleship(), 6,'A', false);
         assertFalse( place );
     }
 
