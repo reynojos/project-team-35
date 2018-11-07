@@ -47,6 +47,12 @@ function printAction(player, attack){
     var column = attack.location['column'];
     var status = attack.result;
 
+    status = status.toLowerCase();
+
+    if (status == "captainhit"){
+        status = "captain hit";
+    }
+
     var log, text;
 
     /*Player is equal to the board that is being attacked. SO if opponent, the player is attacking the opponent ship*/
@@ -150,6 +156,7 @@ function markHits(board, elementId, surrenderText) {
         }
         else if (attack.result === "SURRENDER")
             showModal(surrenderText);
+
         document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
 
         printAction(elementId, attack);
