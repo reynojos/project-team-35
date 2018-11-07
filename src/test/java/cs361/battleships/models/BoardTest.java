@@ -24,13 +24,10 @@ public class BoardTest {
         AttackStatus attack = board.attack(2, 'A').getResult();
         assertTrue(attack == AttackStatus.MISS);
 
-        // Test: repeat/invalid
-        attack = board.attack(2, 'A').getResult();
-        assertTrue(attack == AttackStatus.INVALID);
 
         // Test: hit
         attack = board.attack(1, 'A').getResult();
-        assertTrue(attack == AttackStatus.HIT);
+        assertTrue(attack == AttackStatus.SUNK);
 
         // Test: out of bounds/invalid
         attack = board.attack(0, 'A').getResult();
@@ -39,28 +36,27 @@ public class BoardTest {
         // Test: sunken, and checkWin based on surrender value
         attack = board.attack(1, 'B').getResult();
         assertFalse(attack == AttackStatus.SURRENDER);
-        assertTrue(attack == AttackStatus.SUNK);
 
         // Test: sunk set up for surrender & checkGame function test for false
         attack = board.attack(9, 'A').getResult();
         assertTrue(attack == AttackStatus.HIT);
         attack = board.attack(9, 'B').getResult();
-        assertTrue(attack == AttackStatus.HIT);
+        assertTrue(attack == AttackStatus.CAPTAINHIT);
 
         attack = board.attack(9, 'C').getResult();
         assertFalse(attack == AttackStatus.SURRENDER);
-        assertTrue(attack == AttackStatus.SUNK);
+        assertTrue(attack == AttackStatus.HIT);
 
         // Test: surrender (checkGame function)
         attack = board.attack(10, 'A').getResult();
         assertTrue(attack == AttackStatus.HIT);
         attack = board.attack(10, 'B').getResult();
-        assertTrue(attack == AttackStatus.HIT);
+        assertTrue(attack == AttackStatus.CAPTAINHIT);
         attack = board.attack(10, 'C').getResult();
         assertTrue(attack == AttackStatus.HIT);
-        attack = board.attack(10, 'D').getResult();
-        assertFalse(attack == AttackStatus.SUNK);
-        assertTrue(attack == AttackStatus.SURRENDER);
+        attack = board.attack(10, 'B').getResult();
+        assertTrue(attack == AttackStatus.SUNK);
+
 
     }
 

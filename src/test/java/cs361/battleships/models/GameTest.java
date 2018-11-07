@@ -86,10 +86,6 @@ public class GameTest {
         boolean attack = game.attack(1, 'A');
         assertTrue( attack );
 
-        // Test: Duplicate attack (false)
-        attack = game.attack(1, 'A');
-        assertFalse( attack );
-
         // Test: Invalid char (false)
         attack = game.attack(1, 'Z');
         assertFalse( attack );
