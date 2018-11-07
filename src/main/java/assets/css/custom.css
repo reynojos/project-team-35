@@ -117,20 +117,12 @@ a.visited{
     background-color: gray;
 }
 
-.not-occupied{
-    background-color: gray;
-}
-
 .occupied {
     background-color: black;
 }
 
-tr td.hit {
+.hit {
     background-color: #d00000;
-}
-
-.cpt {
-    background-color: black;
 }
 
 .sink {
@@ -139,14 +131,6 @@ tr td.hit {
 
 .miss {
     background-color: blue;
-}
-
-.occupied{
-    background-color: black;
- }
-
-.not-occupied{
-    background-color: grey;
 }
 
 /*------------------ Ship status -------------------*/
@@ -261,15 +245,3 @@ margin: 38px 0;
  .exit-button, .clickable td, #help, #is_vertical{
     cursor: pointer;
  }
-
- /*Sonar front end CSS*/
- .hideElement{
-    display: none;
- }
-
- .interactions {
-    border: 2px solid black;
-    padding: 5px;
-    margin: 8px 0px 5px 0px;
- }
-
