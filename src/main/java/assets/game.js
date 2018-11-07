@@ -29,6 +29,9 @@ function makeGrid(table, isPlayer) {
         let row = document.createElement('tr');
         for (j=0; j<10; j++) {
             let column = document.createElement('td');
+            let square = document.createElement('div');
+            square.classList.add("square");
+            column.appendChild(square);
             column.addEventListener("click", cellClick);
             row.appendChild(column);
 
@@ -130,6 +133,10 @@ function markHits(board, elementId, surrenderText) {
         if (attack.result === "MISS"){
             className = "miss";
             miss++;
+        }
+        else if (attack.result === "CAPTAINHIT"){
+            className = "cpt";
+            hits++;
         }
         else if (attack.result === "HIT"){
             className = "hit";
