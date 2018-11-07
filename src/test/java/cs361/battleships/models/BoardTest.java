@@ -14,9 +14,9 @@ public class BoardTest {
     public void testAttack(){
         // set up board for testing.
         Board board = new Board();
-        board.placeShip(new Ship("MINESWEEPER"), 1, 'A', false);
-        board.placeShip(new Ship("DESTROYER"), 9, 'A', false);
-        board.placeShip(new Ship("BATTLESHIP"), 10, 'A', false);
+        board.placeShip(new Minesweeper(), 1, 'A', false);
+        board.placeShip(new Destroyer(), 9, 'A', false);
+        board.placeShip(new Battleship(), 10, 'A', false);
 
         assertFalse(board.checkGame());
 
@@ -63,7 +63,7 @@ public class BoardTest {
     @Test
     public void testHasBeenSelected() {
         Board board = new Board();
-        board.placeShip(new Ship("MINESWEEPER"), 1, 'A', false);
+        board.placeShip(new Minesweeper(), 1, 'A', false);
 
         board.attack(1, 'A');
 
@@ -79,7 +79,7 @@ public class BoardTest {
 
         // Set up
         Board board = new Board();
-        board.placeShip(new Ship("MINESWEEPER"), 1, 'A', false);
+        board.placeShip(new Minesweeper(), 1, 'A', false);
 
         // Test: If captains quarters are there return sunk
         AttackStatus hit = board.hasHitShip(1, 'B');
@@ -95,7 +95,7 @@ public class BoardTest {
 
 
         // Test: Armor on ships destroyer and up
-        board.placeShip(new Ship("DESTROYER"), 4, 'D', false);
+        board.placeShip(new Destroyer(), 4, 'D', false);
         hit = board.hasHitShip(4, 'D');
         assertTrue( hit == AttackStatus.HIT );
         hit = board.hasHitShip(4, 'E');
@@ -108,7 +108,7 @@ public class BoardTest {
     public void testFindHit() {
         // Set up
         Board board = new Board();
-        board.placeShip(new Ship("MINESWEEPER"), 1, 'A', false);
+        board.placeShip(new Minesweeper(), 1, 'A', false);
         board.attack(1, 'A');
 
         // Test: Hit minesweeper ship
@@ -195,21 +195,21 @@ public class BoardTest {
 
         // Make sure we can't place a ship out of bounds
         // col
-        assertFalse(board.placeShip(new Ship("DESTROYER"), 10, 'A', true));
+        assertFalse(board.placeShip(new Destroyer(), 10, 'A', true));
         // row
-        assertFalse(board.placeShip(new Ship("DESTROYER"), 1, 'J', false));
+        assertFalse(board.placeShip(new Destroyer(), 1, 'J', false));
 
         // place a ship on the board
-        board.placeShip(new Ship("DESTROYER"), 1, 'A', true);
+        board.placeShip(new Destroyer(), 1, 'A', true);
 
         //ensure that the placed ship's getType method returns the right type.
         assertTrue(board.getShips().get(0).getType().equals("DESTROYER"));
 
         // place another interfering ship and check that it returns false
-        assertFalse(board.placeShip(new Ship("MINESWEEPER"), 2, 'A', false));
+        assertFalse(board.placeShip(new Minesweeper(), 2, 'A', false));
 
         // place a non interfering ship and check that it returns true
-        assertTrue(board.placeShip(new Ship("BATTLESHIP"), 2, 'B', false));
+        assertTrue(board.placeShip(new Battleship(), 2, 'B', false));
 
         // check that there are ships on the board
         assertTrue(board.getShips() != null);
@@ -224,7 +224,7 @@ public class BoardTest {
         }
 
         // check that a duplicate ship cannot be placed.
-        assertFalse(board.placeShip(new Ship("DESTROYER"), 5, 'E', false));
+        assertFalse(board.placeShip(new Destroyer(), 5, 'E', false));
 
         //test setShips method
 
@@ -234,9 +234,9 @@ public class BoardTest {
         // Make sure size is 0, matching new list of ships
         assertTrue(board.getShips().size() == 0);
 
-        newShip.add(new Ship("MINESWEEPER"));
-        newShip.add(new Ship("DESTROYER"));
-        newShip.add(new Ship("BATTLESHIP"));
+        newShip.add(new Minesweeper());
+        newShip.add(new Destroyer());
+        newShip.add(new Battleship());
 
         board.setShips(newShip);
 
@@ -250,9 +250,9 @@ public class BoardTest {
         Board board = new Board();
 
         // Ships for adding to ships list
-        Ship ship = new Ship("MINESWEEPER");
-        Ship ship2 = new Ship("BATTLESHIP");
-        Ship ship3 = new Ship("DESTROYER");
+        Ship ship = new Minesweeper();
+        Ship ship2 = new Battleship();
+        Ship ship3 = new Destroyer();
 
         Result result = new Result();
         Result result2 = new Result();

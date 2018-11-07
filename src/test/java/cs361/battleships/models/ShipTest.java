@@ -11,7 +11,7 @@ public class ShipTest {
 
     @Test
     public void testGetSquares(){
-        Ship ship = new Ship("MINESWEEPER");
+        Ship ship = new Minesweeper();
 
         List squares = ship.getOccupiedSquares();
 
@@ -33,13 +33,21 @@ public class ShipTest {
         }
     }
 
-
     // Test the placement of a new ship
     private void testPlacement(String type, Boolean isVertical){
         char col = 'A';
         int row = 0;
 
-        newShip = new Ship(type);
+        if(type.equals("MINESWEEPER")){
+            newShip = new Minesweeper();
+        }
+        else if(type.equals("DESTROYER")){
+            newShip = new Destroyer();
+        }
+        else{
+            newShip = new Battleship();
+        }
+
         newShip.place(new Square(0, 'A'),isVertical);
 
         List<Square> squares = newShip.getOccupiedSquares();

@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import static cs361.battleships.models.AttackStatus.*;
 
 public class Ship {
+    @JsonProperty protected List<Square> occupiedSquares;
+    protected String type;
+    protected int length;
+    protected int hitLength;
+    protected boolean captainHit;
 
-    @JsonProperty private List<Square> occupiedSquares;
-    private String type;
-    private int length;
-    private int hitLength;
-    private boolean captainHit;
-
+    /* This constructor is no longer necessary with the use of inheritance
 	public Ship(String type) {
 		this.type = type;
 		this.hitLength = 0;
@@ -33,7 +33,7 @@ public class Ship {
                 length = 4;
                 break;
         }
-	}
+	}*/
 
 	public void setHitLength(int i){
 	    hitLength = i;
@@ -52,15 +52,16 @@ public class Ship {
     }
 
 	public int getLength(){
-        switch(type){
+        /* Switch statement no longer needed
+	    switch(type){
             case "MINESWEEPER":
                 return 2;
             case "DESTROYER":
                 return 3;
             case "BATTLESHIP":
                 return 4;
-        }
-        return -1;
+        }*/
+        return length;
     }
 
 	public void place(Square pos, Boolean isVertical){
