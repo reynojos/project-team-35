@@ -117,6 +117,10 @@ a.visited{
     background-color: gray;
 }
 
+.not-occupied{
+    background-color: gray;
+}
+
 .occupied {
     background-color: black;
 }

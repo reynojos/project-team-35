@@ -1,4 +1,5 @@
 var isSetup = true;
+var isSonar = false;
 var placedShips = [];
 var game;
 var shipType;
@@ -151,6 +152,15 @@ function markHits(board, elementId, surrenderText) {
             hits++;
             crossOutShip(attack, elementId);
         }
+
+        else if(attack.result == "SONAROCCUPIED"){
+            className = "occupied";
+        }
+
+        else if(attack.result == "SONARNOTOCCUPIED"){
+            className = "not-occupied";
+        }
+
         else if (attack.result === "SURRENDER")
             showModal(surrenderText);
 
@@ -290,7 +300,7 @@ function cellClick() {
             showModal("guess-double");
             return;
         }
-        sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
+        sendXhr("POST", "/attack", {game: game, x: row, y: col, isSonarAttack: isSonar}, function(data) {
             game = data;
             redrawGrid();
         })
@@ -438,6 +448,12 @@ function showModal(type) {
         modal.appendChild(exit);
 }
 
+function setSonarAttack(){
+    isSonar = true;
+    sonars = sonars - 1;
+}
+
+
 function initGame() {
     /*Initialize the player and opponent boards*/
     makeGrid(document.getElementById("opponent"), false);
@@ -464,7 +480,7 @@ function initGame() {
     });
 
     document.getElementById("sonar-button").addEventListener("click", function(e){
-        console.log("Sonar Selected");
+        setSonarAttack();
     });
 
     /*Send a request to our backend*/
