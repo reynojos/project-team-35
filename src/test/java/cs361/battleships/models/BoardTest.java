@@ -21,40 +21,40 @@ public class BoardTest {
         assertFalse(board.checkGame());
 
         // Test: barely miss
-        AttackStatus attack = board.attack(2, 'A').getResult();
+        AttackStatus attack = board.attack(2, 'A', false).getResult();
         assertTrue(attack == AttackStatus.MISS);
 
 
         // Test: hit
-        attack = board.attack(1, 'A').getResult();
+        attack = board.attack(1, 'A', false).getResult();
         assertTrue(attack == AttackStatus.SUNK);
 
         // Test: out of bounds/invalid
-        attack = board.attack(0, 'A').getResult();
+        attack = board.attack(0, 'A', false).getResult();
         assertTrue(attack == AttackStatus.INVALID);
 
         // Test: sunken, and checkWin based on surrender value
-        attack = board.attack(1, 'B').getResult();
+        attack = board.attack(1, 'B', false).getResult();
         assertFalse(attack == AttackStatus.SURRENDER);
 
         // Test: sunk set up for surrender & checkGame function test for false
-        attack = board.attack(9, 'A').getResult();
+        attack = board.attack(9, 'A', false).getResult();
         assertTrue(attack == AttackStatus.HIT);
-        attack = board.attack(9, 'B').getResult();
+        attack = board.attack(9, 'B', false).getResult();
         assertTrue(attack == AttackStatus.CAPTAINHIT);
 
-        attack = board.attack(9, 'C').getResult();
+        attack = board.attack(9, 'C', false).getResult();
         assertFalse(attack == AttackStatus.SURRENDER);
         assertTrue(attack == AttackStatus.HIT);
 
         // Test: surrender (checkGame function)
-        attack = board.attack(10, 'A').getResult();
+        attack = board.attack(10, 'A', false).getResult();
         assertTrue(attack == AttackStatus.HIT);
-        attack = board.attack(10, 'B').getResult();
+        attack = board.attack(10, 'B', false).getResult();
         assertTrue(attack == AttackStatus.CAPTAINHIT);
-        attack = board.attack(10, 'C').getResult();
+        attack = board.attack(10, 'C', false).getResult();
         assertTrue(attack == AttackStatus.HIT);
-        attack = board.attack(10, 'B').getResult();
+        attack = board.attack(10, 'B', false).getResult();
         assertTrue(attack == AttackStatus.SUNK);
 
 
@@ -65,7 +65,7 @@ public class BoardTest {
         Board board = new Board();
         board.placeShip(new Minesweeper(), 1, 'A', false);
 
-        board.attack(1, 'A');
+        board.attack(1, 'A', false);
 
         boolean selected = board.hasBeenSelected(1, 'A');
         assertTrue( selected );
@@ -109,7 +109,7 @@ public class BoardTest {
         // Set up
         Board board = new Board();
         board.placeShip(new Minesweeper(), 1, 'A', false);
-        board.attack(1, 'A');
+        board.attack(1, 'A', false);
 
         // Test: Hit minesweeper ship
         Ship ship = board.findHit(1, 'A');
