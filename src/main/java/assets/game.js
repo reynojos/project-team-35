@@ -26,6 +26,9 @@ function makeGrid(table, isPlayer) {
         let row = document.createElement('tr');
         for (j=0; j<10; j++) {
             let column = document.createElement('td');
+            let square = document.createElement('div');
+            square.classList.add("square");
+            column.appendChild(square);
             column.addEventListener("click", cellClick);
             row.appendChild(column);
 
@@ -40,6 +43,12 @@ function printAction(player, attack){
     var row = attack.location['row'];
     var column = attack.location['column'];
     var status = attack.result;
+
+    status = status.toLowerCase();
+
+    if (status == "captainhit"){
+        status = "captain hit";
+    }
 
     var log, text;
 
@@ -128,6 +137,10 @@ function markHits(board, elementId, surrenderText) {
             className = "miss";
             miss++;
         }
+        else if (attack.result === "CAPTAINHIT"){
+            className = "cpt";
+            hits++;
+        }
         else if (attack.result === "HIT"){
             className = "hit";
             hits++;
@@ -140,6 +153,7 @@ function markHits(board, elementId, surrenderText) {
         }
         else if (attack.result === "SURRENDER")
             showModal(surrenderText);
+
         document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
 
         printAction(elementId, attack);
