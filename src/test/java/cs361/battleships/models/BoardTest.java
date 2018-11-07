@@ -24,13 +24,10 @@ public class BoardTest {
         AttackStatus attack = board.attack(2, 'A').getResult();
         assertTrue(attack == AttackStatus.MISS);
 
-        // Test: repeat/invalid
-        attack = board.attack(2, 'A').getResult();
-        assertTrue(attack == AttackStatus.INVALID);
 
         // Test: hit
         attack = board.attack(1, 'A').getResult();
-        assertTrue(attack == AttackStatus.HIT);
+        assertTrue(attack == AttackStatus.SUNK);
 
         // Test: out of bounds/invalid
         attack = board.attack(0, 'A').getResult();
@@ -39,28 +36,27 @@ public class BoardTest {
         // Test: sunken, and checkWin based on surrender value
         attack = board.attack(1, 'B').getResult();
         assertFalse(attack == AttackStatus.SURRENDER);
-        assertTrue(attack == AttackStatus.SUNK);
 
         // Test: sunk set up for surrender & checkGame function test for false
         attack = board.attack(9, 'A').getResult();
         assertTrue(attack == AttackStatus.HIT);
         attack = board.attack(9, 'B').getResult();
-        assertTrue(attack == AttackStatus.HIT);
+        assertTrue(attack == AttackStatus.CAPTAINHIT);
 
         attack = board.attack(9, 'C').getResult();
         assertFalse(attack == AttackStatus.SURRENDER);
-        assertTrue(attack == AttackStatus.SUNK);
+        assertTrue(attack == AttackStatus.HIT);
 
         // Test: surrender (checkGame function)
         attack = board.attack(10, 'A').getResult();
         assertTrue(attack == AttackStatus.HIT);
         attack = board.attack(10, 'B').getResult();
-        assertTrue(attack == AttackStatus.HIT);
+        assertTrue(attack == AttackStatus.CAPTAINHIT);
         attack = board.attack(10, 'C').getResult();
         assertTrue(attack == AttackStatus.HIT);
-        attack = board.attack(10, 'D').getResult();
-        assertFalse(attack == AttackStatus.SUNK);
-        assertTrue(attack == AttackStatus.SURRENDER);
+        attack = board.attack(10, 'B').getResult();
+        assertTrue(attack == AttackStatus.SUNK);
+
 
     }
 
@@ -85,13 +81,27 @@ public class BoardTest {
         Board board = new Board();
         board.placeShip(new Minesweeper(), 1, 'A', false);
 
-        // Test: If ship is there return true
-        boolean hit = board.hasHitShip(1, 'A');
-        assertTrue( hit );
+        // Test: If captains quarters are there return sunk
+        AttackStatus hit = board.hasHitShip(1, 'B');
+        assertTrue( hit == AttackStatus.HIT );
+
+        // Test: If captains quarters are there return sunk
+        hit = board.hasHitShip(1, 'A');
+        assertTrue( hit == AttackStatus.SUNK );
 
         // Test: If ship isn't there return false
         hit = board.hasHitShip(1, 'D');
-        assertFalse( hit );
+        assertFalse( hit == AttackStatus.HIT );
+
+
+        // Test: Armor on ships destroyer and up
+        board.placeShip(new Destroyer(), 4, 'D', false);
+        hit = board.hasHitShip(4, 'D');
+        assertTrue( hit == AttackStatus.HIT );
+        hit = board.hasHitShip(4, 'E');
+        assertTrue( hit == AttackStatus.CAPTAINHIT );
+        hit = board.hasHitShip(4, 'E');
+        assertTrue( hit == AttackStatus.SUNK );
     }
 
     @Test

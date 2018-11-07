@@ -8,26 +8,30 @@ import java.util.ArrayList;
 import static cs361.battleships.models.AttackStatus.*;
 
 public class Ship {
-
     @JsonProperty protected List<Square> occupiedSquares;
     protected String type;
     protected int length;
     protected int hitLength;
+    protected boolean captainHit;
 
     /* This constructor is no longer necessary with the use of inheritance
 	public Ship(String type) {
 		this.type = type;
 		this.hitLength = 0;
+		this.captainHit = false;
 		occupiedSquares = new ArrayList<Square>();
         //Have a switch statement that makes the
         //ship a certain length depending on the size
 		switch(type){
             case "MINESWEEPER":
                 length = 2;
+                break;
             case "DESTROYER":
                 length = 3;
+                break;
             case "BATTLESHIP":
                 length = 4;
+                break;
         }
 	}*/
 
@@ -60,7 +64,7 @@ public class Ship {
         return length;
     }
 
-	public void place(Square pos, Boolean isVertical){ ;
+	public void place(Square pos, Boolean isVertical){
 
         int length=getLength();
 
@@ -73,15 +77,37 @@ public class Ship {
         if (isVertical){
             for (int i=0; i<length; i++){
                 Square newSquare = new Square(startingRow+i, startingCol);
+
+                if (type.equals("MINESWEEPER") && i == 0)
+                    newSquare.setCaptainsQ(true);
+                else if (!type.equals("MINESWEEPER") && i == 1)
+                    newSquare.setCaptainsQ(true);
+
                 occupiedSquares.add(newSquare);
             }
         }
         else {
             for (int i = 0; i < length; i++) {
                 Square newSquare = new Square(startingRow, (char)(startingCol+i));
+
+                if (type.equals("MINESWEEPER") && i == 0)
+                    newSquare.setCaptainsQ(true);
+                else if (!type.equals("MINESWEEPER") && i == 1)
+                    newSquare.setCaptainsQ(true);
+
                 occupiedSquares.add(newSquare);
             }
         }
+    }
+
+    // set captain hit to true
+    public void hitCaptain(){
+	    captainHit = true;
+    }
+
+    // return whether captain has been hti
+    public boolean isCaptainHit(){
+        return captainHit;
     }
 
 	public List<Square> getOccupiedSquares() {

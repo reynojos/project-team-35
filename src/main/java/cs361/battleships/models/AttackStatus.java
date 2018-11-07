@@ -13,7 +13,7 @@ public enum AttackStatus {
 	HIT,
 
 	/**
-	 * THe result if an attack sinks the enemy ship
+	 * The result if an attack sinks the enemy ship
 	 */
 	SUNK,
 
@@ -22,6 +22,11 @@ public enum AttackStatus {
 	 * surrender).
 	 */
 	SURRENDER,
+
+	/**
+	 * The results if an attack results in hitting a captains quarter.
+	 */
+	CAPTAINHIT,
 
 	/**
 	 * The result if the coordinates given are invalid.

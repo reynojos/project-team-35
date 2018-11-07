@@ -2,6 +2,7 @@ package cs361.battleships.models;
 
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -66,14 +67,17 @@ public class ShipTest {
             }
         }
 
-        if (type == "MINESWEEPER"){
+        if (type.equals("MINESWEEPER")){
             assertTrue(newShip.getLength() == 2);
+            assertTrue(squares.get(0).isCaptainsQ());
         }
-        if (type == "DESTROYER"){
+        if (type.equals("DESTROYER")){
             assertTrue(newShip.getLength() == 3);
+            assertTrue(squares.get(1).isCaptainsQ());
         }
-        if (type == "BATTLESHIP"){
+        if (type.equals("BATTLESHIP")){
             assertTrue(newShip.getLength() == 4);
+            assertTrue(squares.get(1).isCaptainsQ());
         }
 
     }

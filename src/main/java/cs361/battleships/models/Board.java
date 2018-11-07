@@ -11,6 +11,8 @@ public class Board {
 
 	private List<Result> attacks; // track the attacks that were attempted from Result class
 
+	private int sunkShips;
+
 	public static char MAXCOL = 'J';
 	public static char MAXROW = 10;
 
@@ -20,6 +22,7 @@ public class Board {
 	public Board() {
 		this.ships = new ArrayList<Ship>();
 		this.attacks = new ArrayList<Result>();
+		this.sunkShips = 0;
 	}
 
 	/*
@@ -39,7 +42,7 @@ public class Board {
 		// Check every ship
 		for (Ship currentShip: ships){
 
-			//Check every exisiting ship and make sure it has not been placed
+			//Check every existing ship and make sure it has not been placed
 			if (ship.getType().equals(currentShip.getType())){
 				return false;
 			}
@@ -88,23 +91,35 @@ public class Board {
 		return false; //If the for loop above is passed, that the attack was not previously recorded
  	}
 
- 	public boolean hasHitShip(int x, int y){
+ 	public AttackStatus hasHitShip(int x, int y){
 		//Check every ship and their occupied spots to see if there is a hit
 		for(int i = 0; i < ships.size(); i++){
-			List<Square> occupiedSquares = ships.get(i).getOccupiedSquares();
+			Ship currentShip = ships.get(i);
+			List<Square> occupiedSquares = currentShip.getOccupiedSquares();
 			//For all occupied squares of a ship
 			for(int j = 0; j < occupiedSquares.size(); j++){
 				Square boat_location = occupiedSquares.get(j);
 				if(boat_location != null){
 					if(x == boat_location.getRow() && y == boat_location.getColumn()){
-						return true;
+						if (boat_location.isCaptainsQ()){
+							if (currentShip.getType().equals("MINESWEEPER") || currentShip.isCaptainHit()) {
+								sunkShips++;
+								return AttackStatus.SUNK;
+							}
+							else {
+								currentShip.hitCaptain();
+								return AttackStatus.CAPTAINHIT;
+							}
+						}
+						return AttackStatus.HIT;
 					}
 				}
 			}
 		}
-		return false; //return false if nothing has been hit
+		return AttackStatus.MISS; //return false if nothing has been hit
 	}
 
+	// Check what ship has been hit
 	public Ship findHit(int x, int y){
 		//Check every ship check if it has been hit
 		for(int i = 0; i < ships.size(); i++){
@@ -158,17 +173,12 @@ public class Board {
 			return attempt;
 		}
 
-		//Make sure that this spot has not been previously attacked
-		if(hasBeenSelected(x, y)){
-			attempt.setResult(AttackStatus.INVALID);
-			return attempt;
-		}
-
 		//If the test cases above passed, we can pass our coordinates into the array that holds the attacks
 		//We can check if our attempt has hit a ship
 		List<Result> previous_attacks = getAttacks();
 
-		if(hasHitShip(x, y)){
+		AttackStatus status = hasHitShip(x, y);
+		if(status != AttackStatus.MISS){
 			Ship hitShip = findHit(x,y);
 
 			//Attach the hit ship to the attempt and set its location
@@ -176,24 +186,13 @@ public class Board {
 			attempt.setLocation(new Square(x,y));
 
 			//Get the ship length and add one to the hit length
-			int shipLength = hitShip.getLength();
 			int shipHitLength = hitShip.getHitLength();
 			hitShip.setHitLength(shipHitLength + 1);
 
-			//If the ship has been as many times as its length,
-			// the ship is sunken
-			if(shipLength == (shipHitLength + 1)) {
-				attempt.setResult(AttackStatus.SUNK);
-
-				previous_attacks.add(attempt);
-				setAttacks(previous_attacks);
-			}
-			//Otherwise, its a normal hit
-			else{
-				attempt.setResult(AttackStatus.HIT);
-				previous_attacks.add(attempt);
-				setAttacks(previous_attacks);
-			}
+			//set the attempt and store it
+			attempt.setResult(status);
+			previous_attacks.add(attempt);
+			setAttacks(previous_attacks);
 
 			//After Every hit check if the game has ended
 			if(checkGame()){
