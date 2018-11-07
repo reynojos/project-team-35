@@ -121,8 +121,12 @@ a.visited{
     background-color: black;
 }
 
-.hit {
+tr td.hit {
     background-color: #d00000;
+}
+
+.cpt {
+    background-color: black;
 }
 
 .sink {
