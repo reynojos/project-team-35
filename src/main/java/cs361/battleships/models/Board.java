@@ -73,7 +73,7 @@ public class Board {
 		return true;
 	}
 
-	public boolean hasBeenSelected(int x, int y){
+	public AttackStatus hasBeenSelected(int x, int y){
 		//Get attacks
 		List<Result> previous_attacks = getAttacks();
 
@@ -84,11 +84,11 @@ public class Board {
 				int testRow = attack_location.getRow();
 				char testCol = attack_location.getColumn();
 				if(x == testRow && y == testCol){
-					return true;
+					return previous_attacks.get(i).getResult();
 				}
 			}
 		}
-		return false; //If the for loop above is passed, that the attack was not previously recorded
+		return null; //If the for loop above is passed, that the attack was not previously recorded
  	}
 
  	public AttackStatus hasHitShip(int x, int y){
@@ -169,6 +169,10 @@ public class Board {
 
 		//Make sure that the char is valid and within range
 		if(y >= 'K' || y < 'A'){
+			attempt.setResult(AttackStatus.INVALID);
+			return attempt;
+		}
+		if (hasBeenSelected(x, y) == AttackStatus.HIT){
 			attempt.setResult(AttackStatus.INVALID);
 			return attempt;
 		}
