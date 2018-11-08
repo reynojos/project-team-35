@@ -1,12 +1,11 @@
 var isSetup = true;
-
+var isSonar = false;
 var placedShips = [];
-
 var game;
-
 var shipType;
-
 var vertical;
+var sonars = 0;
+var sonarsUsed = 0;
 
 let out;
 
@@ -154,18 +153,42 @@ function markHits(board, elementId, surrenderText) {
             hits++;
             crossOutShip(attack, elementId);
         }
+
+        else if(attack.result == "SONAROCCUPIED"){
+            className = "occupied";
+        }
+
+        else if(attack.result == "SONARNOTOCCUPIED"){
+            className = "not-occupied";
+        }
+
         else if (attack.result === "SURRENDER")
             showModal(surrenderText);
 
-        document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
+        var a = document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)];
+
+        if(!(a.classList.contains("miss") || a.classList.contains("hit")))
+            a.classList.add(className);
+
+        if(a.classList.contains("occupied") || a.classList.contains("not-occupied"))
+            a.className = className;
 
         printAction(elementId, attack);
+
+
     });
 
     if (elementId != "player"){
         playerScore.miss = miss;
         playerScore.hit = hits;
-        playerScore.sunk = sunk
+        playerScore.sunk = sunk;
+
+        sonars = playerScore.sunk - sonarsUsed;
+        var a = document.getElementById("sonars-available");
+        a.innerText = sonars;
+
+        if(sonars > 0)
+            document.getElementById("sonar-button").disabled = false;
     }
     else{
         enemyScore.miss = miss;
@@ -270,6 +293,8 @@ function cellClick() {
             if (placedShips.length == 3) {
                 isSetup = false;
                 registerCellListener((e) => {});
+                document.getElementById("vertical-checkbox").classList.add("hideElement");
+                document.getElementById("sonar-button-container").classList.remove("hideElement");
                 document.getElementById('player').classList.remove("clickable");
                 document.getElementById('opponent').classList.add("clickable");
             }
@@ -277,7 +302,6 @@ function cellClick() {
         });
 
     } else {
-
         if (!this.parentElement.parentElement.classList.contains("clickable")){
             showModal("guess-board");
             return;
@@ -286,10 +310,28 @@ function cellClick() {
             showModal("guess-double");
             return;
         }
-        sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
+        //considering the tests above past, remove one sonar
+
+        sendXhr("POST", "/attack", {game: game, x: row, y: col, isSonarAttack: isSonar}, function(data) {
             game = data;
             redrawGrid();
-        })
+            //considering the tests have passed, remove a pulse
+            if(isSonar){
+                isSonar = false;
+                sonars = sonars - 1;
+                sonarsUsed = sonarsUsed + 1;
+
+                var a = document.getElementById("sonars-available");
+                a.innerText = sonars;
+
+                if(sonars == 0){
+                     document.getElementById("sonar-button").disabled = true;
+                }
+            }
+        });
+
+
+
     }
 
 }
@@ -434,6 +476,10 @@ function showModal(type) {
         modal.appendChild(exit);
 }
 
+function setSonarAttack(){
+    isSonar = true;
+}
+
 function initGame() {
     /*Initialize the player and opponent boards*/
     makeGrid(document.getElementById("opponent"), false);
@@ -457,6 +503,10 @@ function initGame() {
     document.getElementById("place_battleship").addEventListener("click", function(e) {
         shipType = "BATTLESHIP";
        registerCellListener(place(4));
+    });
+
+    document.getElementById("sonar-button").addEventListener("click", function(e){
+        setSonarAttack();
     });
 
     /*Send a request to our backend*/

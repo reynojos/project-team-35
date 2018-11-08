@@ -117,6 +117,10 @@ a.visited{
     background-color: gray;
 }
 
+.not-occupied{
+    background-color: #c2c2a3;
+}
+
 .occupied {
     background-color: black;
 }
@@ -136,6 +140,7 @@ tr td.hit {
 .miss {
     background-color: blue;
 }
+
 
 /*------------------ Ship status -------------------*/
 
@@ -249,3 +254,15 @@ margin: 38px 0;
  .exit-button, .clickable td, #help, #is_vertical{
     cursor: pointer;
  }
+
+ /*Sonar front end CSS*/
+ .hideElement{
+    display: none;
+ }
+
+ .interactions {
+    border: 2px solid black;
+    padding: 5px;
+    margin: 8px 0px 5px 0px;
+ }
+
