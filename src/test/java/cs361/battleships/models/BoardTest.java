@@ -47,15 +47,15 @@ public class BoardTest {
         assertFalse(attack == AttackStatus.SURRENDER);
         assertTrue(attack == AttackStatus.HIT);
 
-        // Test: surrender (checkGame function)
+        // Test if ship sunk when cq hit twice
         attack = board.attack(10, 'A').getResult();
         assertTrue(attack == AttackStatus.HIT);
         attack = board.attack(10, 'B').getResult();
         assertTrue(attack == AttackStatus.CAPTAINHIT);
-        attack = board.attack(10, 'C').getResult();
-        assertTrue(attack == AttackStatus.HIT);
         attack = board.attack(10, 'B').getResult();
         assertTrue(attack == AttackStatus.SUNK);
+        attack = board.attack(10, 'C').getResult();
+        assertTrue(attack == AttackStatus.HIT);
 
 
     }
