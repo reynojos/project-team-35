@@ -189,7 +189,27 @@ public class Board {
 			int shipHitLength = hitShip.getHitLength();
 			hitShip.setHitLength(shipHitLength + 1);
 
-			//set the attempt and store it
+			// update the rest of the squares to hit if it is sunk
+			if (status == AttackStatus.SUNK){
+				// update hit length, all squares are hit now
+				hitShip.setHitLength(hitShip.getLength());
+				// loop through squares to check if they are unmarked
+				for (Square currentSquare: hitShip.getOccupiedSquares()){
+					int currentRow = currentSquare.getRow();
+					char currentCol = currentSquare.getColumn();
+					// if it is unmarked, add it as a hit to the previous attacks
+					if (findHit(currentCol, currentRow) == null){
+						Result newAttempt = new Result();
+						newAttempt.setResult(AttackStatus.HIT); // Result is hit
+						newAttempt.setLocation(currentSquare); // square is current square
+						newAttempt.setShip(hitShip); // ship is the same ship
+						previous_attacks.add(newAttempt);
+					}
+				}
+
+			}
+
+			//Set the attempt and store it
 			attempt.setResult(status);
 			previous_attacks.add(attempt);
 			setAttacks(previous_attacks);
