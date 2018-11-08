@@ -74,15 +74,14 @@ public class BoardTest {
         attack = board.attack(1, 'B', false).getResult();
         assertFalse(attack == AttackStatus.SURRENDER);
 
-        // Test: sunk set up for surrender & checkGame function test for false
-        attack = board.attack(9, 'A', false).getResult();
-        assertTrue(attack == AttackStatus.HIT);
+        // Test: test 2 hit sunk for cq, sunk set up for surrender 
+        // & checkGame function test for false
         attack = board.attack(9, 'B', false).getResult();
         assertTrue(attack == AttackStatus.CAPTAINHIT);
-
-        attack = board.attack(9, 'C', false).getResult();
+        attack = board.attack(9, 'B', false).getResult();
         assertFalse(attack == AttackStatus.SURRENDER);
-        assertTrue(attack == AttackStatus.HIT);
+        assertTrue(attack == AttackStatus.SUNK);
+
 
         // Test: surrender (checkGame function)
         attack = board.attack(10, 'A', false).getResult();
@@ -92,8 +91,7 @@ public class BoardTest {
         attack = board.attack(10, 'C', false).getResult();
         assertTrue(attack == AttackStatus.HIT);
         attack = board.attack(10, 'B', false).getResult();
-        assertTrue(attack == AttackStatus.SUNK);
-
+        assertTrue(attack == AttackStatus.SURRENDER);
 
     }
 
@@ -104,11 +102,11 @@ public class BoardTest {
 
         board.attack(1, 'A', false);
 
-        boolean selected = board.hasBeenSelected(1, 'A');
-        assertTrue( selected );
+        AttackStatus selected = board.hasBeenSelected(1, 'A');
+        assertTrue( selected == AttackStatus.HIT);
 
         selected = board.hasBeenSelected(2, 'A');
-        assertFalse( selected );
+        assertTrue( selected == null );
     }
 
     @Test
