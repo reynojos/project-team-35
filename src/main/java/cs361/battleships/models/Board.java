@@ -242,7 +242,7 @@ public class Board {
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
-	public Result attack(int x, char y, boolean isSonarAttack) {
+	public Result attack(int x, char y) {
 		Result attempt = new Result(); //new attack that will be placed
 
 		//Make sure the x is within range
@@ -258,11 +258,6 @@ public class Board {
 		}
 		if (hasBeenSelected(x, y) == AttackStatus.HIT){
 			attempt.setResult(AttackStatus.INVALID);
-			return attempt;
-		}
-
-		if(isSonarAttack){
-			attempt = sonarAttack(x, y);
 			return attempt;
 		}
 
