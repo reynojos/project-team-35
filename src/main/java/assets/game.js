@@ -490,4 +490,4 @@ function initGame() {
 //document.getElementById("SonarPulse").type = "checkbox";
 //}
 //else return;
-//};
+//}
