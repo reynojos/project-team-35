@@ -11,6 +11,43 @@ import java.util.List;
 public class BoardTest {
 
     @Test
+    public void testSonarPulse() {
+        // set up board for testing.
+        Board board = new Board();
+        board.placeShip(new Minesweeper(), 1, 'A', false);
+        board.placeShip(new Destroyer(), 2, 'A', false);
+        board.placeShip(new Battleship(), 3, 'A', false);
+
+        board.attack(3, 'C', true);
+
+        List<Result> attacks = board.getAttacks();
+
+
+        // Test: Middle 5
+        assertTrue(attacks.get(0).getResult() == AttackStatus.SONAROCCUPIED);
+        assertTrue(attacks.get(1).getResult() == AttackStatus.SONAROCCUPIED);
+        assertTrue(attacks.get(2).getResult() == AttackStatus.SONARNOTOCCUPIED);
+        assertTrue(attacks.get(3).getResult() == AttackStatus.SONAROCCUPIED);
+        assertTrue(attacks.get(4).getResult() == AttackStatus.SONAROCCUPIED);
+
+        // Test: Bottom second row of 3
+        assertTrue(attacks.get(5).getResult() == AttackStatus.SONARNOTOCCUPIED);
+        assertTrue(attacks.get(6).getResult() == AttackStatus.SONARNOTOCCUPIED);
+        assertTrue(attacks.get(7).getResult() == AttackStatus.SONARNOTOCCUPIED);
+
+        // Test: Top second row of 3
+        assertTrue(attacks.get(8).getResult() == AttackStatus.SONAROCCUPIED);
+        assertTrue(attacks.get(9).getResult() == AttackStatus.SONARNOTOCCUPIED);
+        assertTrue(attacks.get(10).getResult() == AttackStatus.SONAROCCUPIED);
+
+        // Test: Bottom 1
+        assertTrue(attacks.get(11).getResult() == AttackStatus.SONARNOTOCCUPIED);
+
+        // Test: Top 1
+        assertTrue(attacks.get(12).getResult() == AttackStatus.SONARNOTOCCUPIED);
+    }
+
+    @Test
     public void testAttack(){
         // set up board for testing.
         Board board = new Board();
