@@ -83,19 +83,19 @@ public class GameTest {
         Game game = new Game();
 
         // Test: Valid attack (true)
-        boolean attack = game.attack(1, 'A');
+        boolean attack = game.attack(1, 'A', false);
         assertTrue( attack );
 
         // Test: Invalid char (false)
-        attack = game.attack(1, 'Z');
+        attack = game.attack(1, 'Z', false);
         assertFalse( attack );
 
         // Test: Invalid int (false)
-        attack = game.attack(50, 'B');
+        attack = game.attack(50, 'B', false);
         assertFalse( attack );
 
         // Test: Invalid char (false)
-        attack = game.attack(1, '5');
+        attack = game.attack(1, '5', false);
         assertFalse( attack );
     }
 

@@ -79,6 +79,31 @@ public class Game {
         return true;
     }
 
+    /*
+	Overloaded attack so we can access attack types
+	 */
+    public boolean attack(int x, char  y, boolean isSonarAttack) {
+        Result playerAttack;
+        if (isSonarAttack) {
+            playerAttack = opponentsBoard.sonarAttack(x, y);
+        }
+        else{
+            playerAttack = opponentsBoard.attack(x, y);
+        }
+        if (playerAttack.getResult() == INVALID) {
+            return false;
+        }
+
+        Result opponentAttackResult;
+        do {
+            // AI does random attacks, so it might attack the same spot twice
+            // let it try until it gets it right
+            opponentAttackResult = playersBoard.attack(randRow(), randCol());
+        } while(opponentAttackResult.getResult() == INVALID);
+
+        return true;
+    }
+
     public char randCol() {
         //This will select a random character between A - J
         Random r = new Random();

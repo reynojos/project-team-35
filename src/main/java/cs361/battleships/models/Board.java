@@ -73,7 +73,7 @@ public class Board {
 		return true;
 	}
 
-	public boolean hasBeenSelected(int x, int y){
+	public AttackStatus hasBeenSelected(int x, int y){
 		//Get attacks
 		List<Result> previous_attacks = getAttacks();
 
@@ -84,12 +84,30 @@ public class Board {
 				int testRow = attack_location.getRow();
 				char testCol = attack_location.getColumn();
 				if(x == testRow && y == testCol){
-					return true;
+					return previous_attacks.get(i).getResult();
 				}
 			}
 		}
-		return false; //If the for loop above is passed, that the attack was not previously recorded
+		return null; //If the for loop above is passed, that the attack was not previously recorded
  	}
+
+ 	public boolean hasShip(int x, int y){
+		//Check for ship
+		for(int i = 0; i < ships.size(); i++) {
+			Ship currentShip = ships.get(i);
+			List<Square> occupiedSquares = currentShip.getOccupiedSquares();
+			//For all occupied squares of a ship
+			for (int j = 0; j < occupiedSquares.size(); j++) {
+				Square boat_location = occupiedSquares.get(j);
+				if (boat_location != null) {
+					if (x == boat_location.getRow() && y == boat_location.getColumn()) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
 
  	public AttackStatus hasHitShip(int x, int y){
 		//Check every ship and their occupied spots to see if there is a hit
@@ -155,6 +173,72 @@ public class Board {
 		}
 	}
 
+	public Result sonarAttack(int x, char y){
+		//Declare list that contains all sonar squares
+		Result selectedSquare = new Result();
+
+		List<Square> sonarSquares = new ArrayList<Square>();
+
+		//Add all squares 2 squares to each side of x
+		sonarSquares.add((new Square(x, y)));
+		sonarSquares.add((new Square(x, (char)( ((int)y) + 1) )));
+		sonarSquares.add((new Square(x, (char)( ((int)y) + 2) )));
+		sonarSquares.add((new Square(x, (char)( ((int)y) - 1) )));
+		sonarSquares.add((new Square(x, (char)( ((int)y) - 2) )));
+
+		//Add only one to each side of the row above and below
+		sonarSquares.add((new Square(x + 1, (char)( ((int)y) - 1) )));
+		sonarSquares.add((new Square(x + 1, (char)( ((int)y) + 1) )));
+		sonarSquares.add((new Square(x + 1, y)));
+
+		sonarSquares.add((new Square(x - 1, (char)( ((int)y) - 1) )));
+		sonarSquares.add((new Square(x - 1, (char)( ((int)y) + 1) )));
+		sonarSquares.add((new Square(x - 1, y)));
+
+		//Add the very tips of the sonar attacks
+		sonarSquares.add((new Square(x + 2, y)));
+		sonarSquares.add((new Square(x - 2, y)));
+
+		//Now iterate through all the new squares and check if there are existing ships on it.
+		//If there are squares, add them to the attacks, attached with a status specific to sonar attacks
+		for(int i = 0; i < sonarSquares.size(); i++){
+			Square location = sonarSquares.get(i);
+			boolean occupied = hasShip(location.getRow(), location.getColumn());
+			Result currentSonarSquare = new Result();
+			if(occupied){
+				//if occupied, register it as a attack with special a special pulse attack status
+				currentSonarSquare.setResult(AttackStatus.SONAROCCUPIED);
+				currentSonarSquare.setLocation(sonarSquares.get(i));
+
+				attacks = getAttacks();
+				this.attacks.add(currentSonarSquare);
+				setAttacks(attacks);
+			}
+			else{
+				char col = location.getColumn();
+				int row = location.getRow();
+
+				//if it is not occupied, make sure that it is still within boundaries
+				if(!(row >= 11 || row <= 0 || col >= 'K' || col < 'A')){
+					currentSonarSquare.setResult(AttackStatus.SONARNOTOCCUPIED);
+					currentSonarSquare.setLocation(sonarSquares.get(i));
+					attacks = getAttacks();
+					this.attacks.add(currentSonarSquare);
+					setAttacks(attacks);
+				}
+
+			}
+
+			//Return the selected square for returning purposes
+			if(i == 0){
+				selectedSquare.setResult(currentSonarSquare.getResult());
+				selectedSquare.setLocation(currentSonarSquare.getLocation());
+			}
+		}
+
+		return selectedSquare;
+	}
+
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
@@ -169,6 +253,10 @@ public class Board {
 
 		//Make sure that the char is valid and within range
 		if(y >= 'K' || y < 'A'){
+			attempt.setResult(AttackStatus.INVALID);
+			return attempt;
+		}
+		if (hasBeenSelected(x, y) == AttackStatus.HIT){
 			attempt.setResult(AttackStatus.INVALID);
 			return attempt;
 		}
@@ -189,7 +277,27 @@ public class Board {
 			int shipHitLength = hitShip.getHitLength();
 			hitShip.setHitLength(shipHitLength + 1);
 
-			//set the attempt and store it
+			// update the rest of the squares to hit if it is sunk
+			if (status == AttackStatus.SUNK){
+				// update hit length, all squares are hit now
+				hitShip.setHitLength(hitShip.getLength());
+				// loop through squares to check if they are unmarked
+				for (Square currentSquare: hitShip.getOccupiedSquares()){
+					int currentRow = currentSquare.getRow();
+					char currentCol = currentSquare.getColumn();
+					// if it is unmarked, add it as a hit to the previous attacks
+					if (findHit(currentCol, currentRow) == null){
+						Result newAttempt = new Result();
+						newAttempt.setResult(AttackStatus.HIT); // Result is hit
+						newAttempt.setLocation(currentSquare); // square is current square
+						newAttempt.setShip(hitShip); // ship is the same ship
+						previous_attacks.add(newAttempt);
+					}
+				}
+
+			}
+
+			//Set the attempt and store it
 			attempt.setResult(status);
 			previous_attacks.add(attempt);
 			setAttacks(previous_attacks);
