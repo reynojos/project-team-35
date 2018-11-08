@@ -5,6 +5,7 @@ var game;
 var shipType;
 var vertical;
 var sonars = 0;
+var sonarsUsed = 0;
 
 let out;
 
@@ -164,21 +165,30 @@ function markHits(board, elementId, surrenderText) {
         else if (attack.result === "SURRENDER")
             showModal(surrenderText);
 
-        document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
+        var a = document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)];
+
+        if(!(a.classList.contains("miss") || a.classList.contains("hit")))
+            a.classList.add(className);
+
+        if(a.classList.contains("occupied") || a.classList.contains("not-occupied"))
+            a.className = className;
 
         printAction(elementId, attack);
-        if(elementId != "player" && attack.result === "SUNK"){
-            sonars = sonars + 1;
-            document.getElementById("sonar-button");
-        }
+
+
     });
-
-
 
     if (elementId != "player"){
         playerScore.miss = miss;
         playerScore.hit = hits;
         playerScore.sunk = sunk;
+
+        sonars = playerScore.sunk - sonarsUsed;
+        var a = document.getElementById("sonars-available");
+        a.innerText = sonars;
+
+        if(sonars > 0)
+            document.getElementById("sonar-button").disabled = false;
     }
     else{
         enemyScore.miss = miss;
@@ -284,7 +294,7 @@ function cellClick() {
                 isSetup = false;
                 registerCellListener((e) => {});
                 document.getElementById("vertical-checkbox").classList.add("hideElement");
-                document.getElementById("sonar-button").classList.remove("hideElement");
+                document.getElementById("sonar-button-container").classList.remove("hideElement");
                 document.getElementById('player').classList.remove("clickable");
                 document.getElementById('opponent').classList.add("clickable");
             }
@@ -300,10 +310,28 @@ function cellClick() {
             showModal("guess-double");
             return;
         }
+        //considering the tests above past, remove one sonar
+
         sendXhr("POST", "/attack", {game: game, x: row, y: col, isSonarAttack: isSonar}, function(data) {
             game = data;
             redrawGrid();
-        })
+            //considering the tests have passed, remove a pulse
+            if(isSonar){
+                isSonar = false;
+                sonars = sonars - 1;
+                sonarsUsed = sonarsUsed + 1;
+
+                var a = document.getElementById("sonars-available");
+                a.innerText = sonars;
+
+                if(sonars == 0){
+                     document.getElementById("sonar-button").disabled = true;
+                }
+            }
+        });
+
+
+
     }
 
 }
@@ -450,9 +478,7 @@ function showModal(type) {
 
 function setSonarAttack(){
     isSonar = true;
-    sonars = sonars - 1;
 }
-
 
 function initGame() {
     /*Initialize the player and opponent boards*/

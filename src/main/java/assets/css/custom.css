@@ -118,7 +118,7 @@ a.visited{
 }
 
 .not-occupied{
-    background-color: gray;
+    background-color: #c2c2a3;
 }
 
 .occupied {
@@ -141,13 +141,6 @@ tr td.hit {
     background-color: blue;
 }
 
-.occupied{
-    background-color: black;
- }
-
-.not-occupied{
-    background-color: grey;
-}
 
 /*------------------ Ship status -------------------*/
 
