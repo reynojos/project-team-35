@@ -476,18 +476,3 @@ function initGame() {
         game = data;
     });
 };
-//hides the vertical button when the game starts, displays the sonarpulse
-//button when a ship is sunk by the player, commented out for now.
-
-//function showSonarPulse()  {
-//if(playerScore.miss == 1){
-//document.getElementById("is_vertical").style.visibility = "hidden";
-//document.getElementById("vertWrapper").innerText = " ";
-//
-//}
-//if(playerscore.sunk == 1){
-//document.getElementById("vertWrapper").innerText = "SonarPulses Remaining: ";
-//document.getElementById("SonarPulse").type = "checkbox";
-//}
-//else return;
-//}
