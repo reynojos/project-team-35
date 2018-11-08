@@ -33,4 +33,13 @@ public enum AttackStatus {
 	 */
 	INVALID,
 
+	/**
+	 * The results if sonar selection results in a occupied square.
+	 */
+	SONAROCCUPIED,
+
+	/**
+	 * The results if sonar selection results in a non occupied square
+	 */
+	SONARNOTOCCUPIED,
 }

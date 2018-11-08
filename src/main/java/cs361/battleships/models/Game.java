@@ -63,8 +63,8 @@ public class Game {
     /*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
-    public boolean attack(int x, char  y) {
-        Result playerAttack = opponentsBoard.attack(x, y);
+    public boolean attack(int x, char  y, boolean isSonarAttack) {
+        Result playerAttack = opponentsBoard.attack(x, y, isSonarAttack);
         if (playerAttack.getResult() == INVALID) {
             return false;
         }
@@ -73,7 +73,7 @@ public class Game {
         do {
             // AI does random attacks, so it might attack the same spot twice
             // let it try until it gets it right
-            opponentAttackResult = playersBoard.attack(randRow(), randCol());
+            opponentAttackResult = playersBoard.attack(randRow(), randCol(), false);
         } while(opponentAttackResult.getResult() == INVALID);
 
         return true;
