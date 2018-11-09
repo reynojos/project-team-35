@@ -387,6 +387,7 @@ function showModal(type) {
         else if (type == "placement-ship"){
             text.innerText = "Select a new ship to place.";
             modal.classList.add("short");
+            modal.classList.remove("long");
         }
         else if (type == "guess-double"){
             text.innerText = "Guess in a location that you have not guessed before.";
@@ -433,6 +434,7 @@ function showModal(type) {
                     "\nYou are allowed a total of two sonar pulse's per game"+
                     "\n\nIf you would like to play again, click ok on the end of game popup.";
                     modal.classList.add("long");
+                    modal.classList.remove("short");
                 }
         else {
             text.innerText = type;
