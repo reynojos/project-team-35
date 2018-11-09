@@ -175,8 +175,9 @@ tr td.hit {
 }
 
 #modal.long{
-    height: 290px;
+    height: 500px;
     width:600px;
+    overflow: auto;
 }
 
 #modal p {

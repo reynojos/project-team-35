@@ -195,7 +195,6 @@ function markHits(board, elementId, surrenderText) {
         enemyScore.hit = hits;
         enemyScore.sunk = sunk;
     }
-
 }
 
 
@@ -219,6 +218,7 @@ function redrawGrid() {
     markHits(game.opponentsBoard, "opponent", "won");
     markHits(game.playersBoard, "player", "lost");
     updateScore();
+
 }
 
 var oldListener;
@@ -258,6 +258,7 @@ function removeLink(shipType){
         var a = document.getElementById("place_destroyer");
         a.innerText = "Destroyer";
         a.removeAttribute("href");
+
     }
 }
 
@@ -455,12 +456,23 @@ function showModal(type) {
             });
         }
         else if (type == "help"){
+
                     text.innerText = "Welcome to our battleship game!" +
                     "\n\nTo play, start by selecting a ship to place and click a spot on player1's board." +
                     "\nKeep picking until you have place all 3 ships." +
                     "\n\nNow it's time to attack!" +
                     "\nClick a spot on player2's board to place a guess."+
                     "\nKeep guessing until either player wins."+
+                    "\n\nCaptain's Quarters" +
+                    "\nEach ship contains a Captain's quarters"+
+                    "\nWhen hit, the entire ship is sunk, regardless of the status of its other elements."+
+                    "\nThe Captains quarters for battleships and destroyers are armored,"+
+                    "\nwhich means it takes two attacks on the same square to count as a hit."+
+                    "\n\nSonar Pulse"+
+                    "\nThe sonar pulse allows you to reveal enemy ships on a portion of the map"+
+                    "\nThe sonar pulse shows free spaces as grey squares and enemy ships as black squares"+
+                    "\nThe sonar pulse is available only after you have sunken a ship"+
+                    "\nYou are allowed a total of two sonar pulse's per game"+
                     "\n\nIf you would like to play again, click ok on the end of game popup.";
                     modal.classList.add("long");
                 }
