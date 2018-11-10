@@ -425,30 +425,37 @@ function showModal(type) {
         if (type == "placement-board"){
             text.innerText = "You must place a ship on your own board. Try again.";
             modal.classList.add("short");
+            modal.classList.remove("long");
         }
         else if (type == "placement-ship"){
             text.innerText = "Select a new ship to place.";
             modal.classList.add("short");
+            modal.classList.remove("long");
         }
         else if (type == "guess-double"){
             text.innerText = "Guess in a location that you have not guessed before.";
             modal.classList.add("short");
+            modal.classList.remove("long");
         }
         else if (type == "guess-board"){
             text.innerText = "You must place your guess on the opponent board.";
             modal.classList.add("short");
+            modal.classList.remove("long");
         }
         else if (type == "bounds"){
             text.innerText = "You must place your ship within the bounds of your board.";
             modal.classList.add("short");
+            modal.classList.remove("long");
         }
         else if (type == "overlap"){
             text.innerText = "You can't overlap ships.";
             modal.classList.add("short");
+            modal.classList.remove("long");
         }
         else if (type == "won" || type == "lost") {
             text.innerText = "You "+type+"!";
             modal.classList.add("short");
+            modal.classList.remove("long");
 
             exit.removeEventListener("click", hideModal);
             exit.addEventListener("click", function(e){
@@ -475,6 +482,7 @@ function showModal(type) {
                     "\nYou are allowed a total of two sonar pulse's per game"+
                     "\n\nIf you would like to play again, click ok on the end of game popup.";
                     modal.classList.add("long");
+                    modal.classList.remove("short");
                 }
         else {
             text.innerText = type;
