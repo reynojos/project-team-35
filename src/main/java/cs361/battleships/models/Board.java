@@ -327,9 +327,36 @@ public class Board {
 		Result attempt = new Result(); //new attack that will be placed
 
 		// Valid attack error check
-		if(x >= 11 || x <= 0 || y >= 'K' || y < 'A' || hasBeenSelected(x, y) == AttackStatus.HIT){
+		if(x >= 11 || x <= 0 || y >= 'K' || y < 'A'){
 			attempt.setResult(AttackStatus.INVALID);
 			return attempt;
+		}
+
+		if(hasBeenSelected(x, y) == AttackStatus.HIT) {
+			int num = 0;
+			String prevShip = null;
+			for(Result prevAttack : getAttacks()) {
+				if (prevAttack.getLocation().getRow() == x && prevAttack.getLocation().getColumn() == y) {
+
+					TestShip:
+					for (Ship ship : ships) {
+						for (Square square : ship.getOccupiedSquares()) {
+							if(x == square.getRow() && y == square.getColumn()) {
+								if(!ship.getType().equals(prevShip)) {
+									num++;
+									break TestShip;
+								}
+							}
+
+						}
+					}
+				}
+			}
+			if(num > 1) {
+				attempt.setResult(AttackStatus.INVALID);
+				return attempt;
+			}
+
 		}
 
 		//If the test cases above passed, we can pass our coordinates into the array that holds the attacks
