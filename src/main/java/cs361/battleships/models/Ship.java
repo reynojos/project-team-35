@@ -103,7 +103,7 @@ public class Ship {
 
             if (type.equals("MINESWEEPER") && i == 0)
                 newSquare.setCaptainsQ(true);
-            else if (type.equals("DESTROYER") || type.equals("BATTLESHIP") && i == 1)
+            else if ((type.equals("DESTROYER") || type.equals("BATTLESHIP")) && i == 1)
                 newSquare.setCaptainsQ(true);
             else if(type.equals("SUBMARINE") && i == 3)
                 newSquare.setCaptainsQ(true);
