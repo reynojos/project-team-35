@@ -11,6 +11,7 @@ public class Ship {
     @JsonProperty protected List<Square> occupiedSquares;
     protected String type;
     protected int length;
+    protected boolean submerged;
     protected int hitLength;
     protected boolean captainHit;
 
@@ -34,6 +35,10 @@ public class Ship {
                 break;
         }
 	}*/
+
+    public void setSubmerged(boolean x) { submerged = x; }
+
+    public boolean getSubmerged() { return submerged; }
 
 	public void setHitLength(int i){
 	    hitLength = i;
@@ -76,7 +81,14 @@ public class Ship {
         //must represent a vertical pattern
         if (isVertical){
             for (int i=0; i<length; i++){
-                Square newSquare = new Square(startingRow+i, startingCol);
+
+                Square newSquare;
+                if(i < 4) {
+                    newSquare = new Square(startingRow + i, startingCol);
+                }
+                else {
+                    newSquare = new Square(startingRow + i - 2, (char) (startingCol + 1) );
+                }
 
                 if (type.equals("MINESWEEPER") && i == 0)
                     newSquare.setCaptainsQ(true);
@@ -88,7 +100,15 @@ public class Ship {
         }
         else {
             for (int i = 0; i < length; i++) {
-                Square newSquare = new Square(startingRow, (char)(startingCol+i));
+
+                Square newSquare;
+
+                if(i < 4) {
+                    newSquare = new Square(startingRow, (char) (startingCol + i));
+                }
+                else {
+                    newSquare = new Square(startingRow - 1, (char) (startingCol + i - 2));
+                }
 
                 if (type.equals("MINESWEEPER") && i == 0)
                     newSquare.setCaptainsQ(true);

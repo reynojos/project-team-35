@@ -31,12 +31,24 @@ public class Board {
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
 
 		if (isVertical){
-			if (x+ship.getLength()-1 > MAXROW)
-				return false;
+			if(ship.getType() == "SUBMARINE") {
+				if(x+ship.getLength() - 2 > MAXROW || y == 'J')
+						return false;
+			}
+			else {
+				if (x+ship.getLength()-1 > MAXROW)
+					return false;
+			}
 		}
 		else {
-			if (y+ship.getLength()-1 > MAXCOL)
-				return false;
+			if(ship.getType() == "SUBMARINE") {
+				if(y + ship.getLength() - 2 > MAXCOL || x == 1)
+					return false;
+			}
+			else {
+				if (y + ship.getLength() - 1 > MAXCOL)
+					return false;
+			}
 		}
 
 		// Check every ship
@@ -62,6 +74,75 @@ public class Board {
 						x_updated++;
 					else
 						y_updated++;
+				}
+			}
+		}
+
+		// If we've gotten to this point then we can add the ship.
+		ship.place(new Square(x, y), isVertical);
+		ships.add(ship);
+
+		return true;
+	}
+
+	/*
+	Overload function to set ship status from front end
+	 */
+	public boolean placeShip(Ship ship, int x, char y, boolean isVertical, boolean isSubmerged) {
+
+		if (isVertical){
+			if(ship.getType() == "SUBMARINE") {
+				if(x+ship.getLength() - 2 > MAXROW || y == 'J')
+					return false;
+			}
+			else {
+				if (x+ship.getLength()-1 > MAXROW)
+					return false;
+			}
+		}
+		else {
+			if(ship.getType() == "SUBMARINE") {
+				if(y + ship.getLength() - 2 > MAXCOL || x == 1)
+					return false;
+			}
+			else {
+				if (y + ship.getLength() - 1 > MAXCOL)
+					return false;
+			}
+		}
+
+		// Setting submerged status only for subs
+		if(ship.getType() == "SUBMARINE") {
+			ship.setSubmerged(isSubmerged);
+		}
+
+		// Check every ship
+		for (Ship currentShip: ships){
+
+			//Check every existing ship and make sure it has not been placed
+			if (ship.getType().equals(currentShip.getType())){
+				return false;
+			}
+
+			// Both ships have to be surface to check
+			if(ship.getSubmerged() == false && currentShip.getSubmerged() == false) {
+				// Check every square in current ship
+				for (Square square: currentShip.getOccupiedSquares()){
+					//keep original x and y so we can keep testing past first iteration.
+					int x_updated = x;
+					char y_updated = y;
+
+					// and every square in potential ship
+					for (int i=0; i < ship.getLength(); i++){
+
+						if (square.getColumn() == y_updated && square.getRow() == x_updated){
+							return false;
+						}
+						if (isVertical)
+							x_updated++;
+						else
+							y_updated++;
+					}
 				}
 			}
 		}
@@ -165,7 +246,7 @@ public class Board {
 			}
 		}
 		//If the total sunken marks equals 3, its game over
-		if(sunkenMarks == 3){
+		if(sunkenMarks == 4){
 			return true;
 		}
 		else{
@@ -245,18 +326,8 @@ public class Board {
 	public Result attack(int x, char y) {
 		Result attempt = new Result(); //new attack that will be placed
 
-		//Make sure the x is within range
-		if(x >= 11 || x <= 0){
-			attempt.setResult(AttackStatus.INVALID);
-			return attempt;
-		}
-
-		//Make sure that the char is valid and within range
-		if(y >= 'K' || y < 'A'){
-			attempt.setResult(AttackStatus.INVALID);
-			return attempt;
-		}
-		if (hasBeenSelected(x, y) == AttackStatus.HIT){
+		// Valid attack error check
+		if(x >= 11 || x <= 0 || y >= 'K' || y < 'A' || hasBeenSelected(x, y) == AttackStatus.HIT){
 			attempt.setResult(AttackStatus.INVALID);
 			return attempt;
 		}

@@ -31,11 +31,14 @@ public class ApplicationController {
         else if(shipType.equals("BATTLESHIP")){
             ship = new Battleship();
         }
-        else{
+        else if(shipType.equals("DESTROYER")){
             ship = new Destroyer();
         }
+        else {
+            ship = new Submarine();
+        }
 
-        boolean result = game.placeShip(ship, g.getActionRow(), g.getActionColumn(), g.isVertical());
+        boolean result = game.placeShip(ship, g.getActionRow(), g.getActionColumn(), g.isVertical(), g.isSubmerged());
         if (result) {
             return Results.json().render(game);
         } else {
