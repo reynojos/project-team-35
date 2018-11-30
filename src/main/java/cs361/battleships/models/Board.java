@@ -327,10 +327,12 @@ public class Board {
 		Result attempt = new Result(); //new attack that will be placed
 
 		// Valid attack error check
-		if(x >= 11 || x <= 0 || y >= 'K' || y < 'A'){
+		if(x >= 11 || x <= 0 || y >= 'K' || y < 'A' || hasBeenSelected(x, y) == AttackStatus.HIT){		/* Note: added this hasBeenSelected back to prevent multiple attacks */
 			attempt.setResult(AttackStatus.INVALID);
 			return attempt;
 		}
+
+		/* Only change made to test for another ship that is submerged in order to hit it and added ^^ back
 
 		if(hasBeenSelected(x, y) == AttackStatus.HIT) {
 			int num = 0;
@@ -357,7 +359,7 @@ public class Board {
 				return attempt;
 			}
 
-		}
+		} */
 
 		//If the test cases above passed, we can pass our coordinates into the array that holds the attacks
 		//We can check if our attempt has hit a ship
