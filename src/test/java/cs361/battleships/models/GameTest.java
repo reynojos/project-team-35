@@ -67,6 +67,10 @@ public class GameTest {
         place = game.placeShip(new Destroyer(), 3, 'A', false);
         assertTrue( place );
 
+        // Test: Place submarine
+        place = game.placeShip(new Submarine(), 8, 'A', false);
+        assertTrue( place );
+
         // Test: Duplicate ship placement
         place = game.placeShip(new Minesweeper(), 4,'A', false);
         assertFalse( place );
@@ -74,6 +78,9 @@ public class GameTest {
         assertFalse( place );
         place = game.placeShip(new Battleship(), 6,'A', false);
         assertFalse( place );
+        place = game.placeShip(new Submarine(), 10,'A', false);
+        assertFalse( place );
+
     }
 
     @Test
