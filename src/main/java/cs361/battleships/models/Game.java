@@ -46,15 +46,57 @@ public class Game {
         else if(ship.getType().equals("DESTROYER")){
             opponentShip = new Destroyer();
         }
-        else{
+        else if(ship.getType().equals("BATTLESHIP")){
             opponentShip = new Battleship();
+        }
+        else {
+            opponentShip = new Submarine();
         }
 
         boolean opponentPlacedSuccessfully;
         do {
             // AI places random ships, so it might try and place overlapping ships
             // let it try until it gets it right
-            opponentPlacedSuccessfully = opponentsBoard.placeShip(opponentShip, randRow(), randCol(), randVertical());
+            opponentPlacedSuccessfully = opponentsBoard.placeShip(opponentShip, randRow(), randCol(), randBool());
+        } while (!opponentPlacedSuccessfully);
+
+        return true;
+    }
+
+    /*
+    Overload function to handle different ship statuses from front end
+     */
+    public boolean placeShip(Ship ship, int x, char y, boolean isVertical, boolean isSubmerged) {
+
+        // Error Handling: Checking bounds of x and y
+        if(x < 1 || x > 10 || y < 'A' || y > 'J')
+            return false;
+
+        //separate player ship from opponent ship
+        boolean successful = playersBoard.placeShip(ship, x, y, isVertical, isSubmerged);
+        if (!successful)
+            return false;
+
+        Ship opponentShip;
+
+        if(ship.getType().equals("MINESWEEPER")){
+            opponentShip = new Minesweeper();
+        }
+        else if(ship.getType().equals("DESTROYER")){
+            opponentShip = new Destroyer();
+        }
+        else if(ship.getType().equals("BATTLESHIP")){
+            opponentShip = new Battleship();
+        }
+        else {
+            opponentShip = new Submarine();
+        }
+
+        boolean opponentPlacedSuccessfully;
+        do {
+            // AI places random ships, so it might try and place overlapping ships
+            // let it try until it gets it right
+            opponentPlacedSuccessfully = opponentsBoard.placeShip(opponentShip, randRow(), randCol(), randBool(), randBool());
         } while (!opponentPlacedSuccessfully);
 
         return true;
@@ -65,6 +107,31 @@ public class Game {
 	 */
     public boolean attack(int x, char  y) {
         Result playerAttack = opponentsBoard.attack(x, y);
+        if (playerAttack.getResult() == INVALID) {
+            return false;
+        }
+
+        Result opponentAttackResult;
+        do {
+            // AI does random attacks, so it might attack the same spot twice
+            // let it try until it gets it right
+            opponentAttackResult = playersBoard.attack(randRow(), randCol());
+        } while(opponentAttackResult.getResult() == INVALID);
+
+        return true;
+    }
+
+    /*
+	Overloaded attack so we can access attack types
+	 */
+    public boolean attack(int x, char  y, boolean isSonarAttack) {
+        Result playerAttack;
+        if (isSonarAttack) {
+            playerAttack = opponentsBoard.sonarAttack(x, y);
+        }
+        else{
+            playerAttack = opponentsBoard.attack(x, y);
+        }
         if (playerAttack.getResult() == INVALID) {
             return false;
         }
@@ -95,7 +162,7 @@ public class Game {
         return (r.nextInt(10) + 1);
     }
 
-    public boolean randVertical() {
+    public boolean randBool() {
         //This will return true or false depending if the random
         //integer from 0-1 is 0
         Random r = new Random();

@@ -24,12 +24,23 @@
                     <li><a href="#" id="place_minesweeper">Place Minesweeper</a></li>
                     <li><a href="#" id="place_destroyer">Place Destroyer</a></li>
                     <li><a href="#" id="place_battleship">Place Battleship</a></li>
+                    <li><a href="#" id="place_submarine" onclick="document.getElementById('submerged-checkbox').classList.remove('hideElement');">Place Submarine</a></li>
                 </ul>
             </div>
 
         </div>
-
-        <input type="checkbox" id="is_vertical">Vertical</input>
+        <div class ="interactions">
+            <div id = "vertical-checkbox">
+                <input type="checkbox" id="is_vertical">Vertical
+            </div>
+            <div id = "submerged-checkbox" class="hideElement">
+                <input type="checkbox" id="is_submerged">Submerged
+            </div>
+            <div id = "sonar-button-container" class = "hideElement">
+                <button id="sonar-button" disabled>Sonar Pulse</button>
+                Available: <span id="sonars-available">0</span>
+            </div>
+        </div>
 
         <div class="hits-and-miss-player1">
             <ul>
@@ -195,6 +206,7 @@
                     <li id = "op_minesweeper">Minesweeper</li>
                     <li id = "op_destroyer">Destroyer</li>
                     <li id = "op_battleship">Battleship</li>
+                    <li id = "op_submarine">Submarine</li>
                 </ul>
             </div>
 

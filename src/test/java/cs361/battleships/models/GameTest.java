@@ -35,7 +35,7 @@ public class GameTest {
     public void testBooleanValue() {
         //declare variables that will hold game objectt
         Game g = new Game();
-        boolean isVertical = g.randVertical();
+        boolean isVertical = g.randBool();
 
         //This assert will check if the variable returns true or not
         assertTrue(isVertical || !isVertical);
@@ -67,6 +67,10 @@ public class GameTest {
         place = game.placeShip(new Destroyer(), 3, 'A', false);
         assertTrue( place );
 
+        // Test: Place submarine
+        place = game.placeShip(new Submarine(), 8, 'A', false);
+        assertTrue( place );
+
         // Test: Duplicate ship placement
         place = game.placeShip(new Minesweeper(), 4,'A', false);
         assertFalse( place );
@@ -74,6 +78,9 @@ public class GameTest {
         assertFalse( place );
         place = game.placeShip(new Battleship(), 6,'A', false);
         assertFalse( place );
+        place = game.placeShip(new Submarine(), 10,'A', false);
+        assertFalse( place );
+
     }
 
     @Test
@@ -83,19 +90,19 @@ public class GameTest {
         Game game = new Game();
 
         // Test: Valid attack (true)
-        boolean attack = game.attack(1, 'A');
+        boolean attack = game.attack(1, 'A', false);
         assertTrue( attack );
 
         // Test: Invalid char (false)
-        attack = game.attack(1, 'Z');
+        attack = game.attack(1, 'Z', false);
         assertFalse( attack );
 
         // Test: Invalid int (false)
-        attack = game.attack(50, 'B');
+        attack = game.attack(50, 'B', false);
         assertFalse( attack );
 
         // Test: Invalid char (false)
-        attack = game.attack(1, '5');
+        attack = game.attack(1, '5', false);
         assertFalse( attack );
     }
 

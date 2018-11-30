@@ -11,12 +11,50 @@ import java.util.List;
 public class BoardTest {
 
     @Test
+    public void testSonarPulse() {
+        // set up board for testing.
+        Board board = new Board();
+        board.placeShip(new Minesweeper(), 1, 'A', false);
+        board.placeShip(new Destroyer(), 2, 'A', false);
+        board.placeShip(new Battleship(), 3, 'A', false);
+
+        board.sonarAttack(3, 'C');
+
+        List<Result> attacks = board.getAttacks();
+
+
+        // Test: Middle 5
+        assertTrue(attacks.get(0).getResult() == AttackStatus.SONAROCCUPIED);
+        assertTrue(attacks.get(1).getResult() == AttackStatus.SONAROCCUPIED);
+        assertTrue(attacks.get(2).getResult() == AttackStatus.SONARNOTOCCUPIED);
+        assertTrue(attacks.get(3).getResult() == AttackStatus.SONAROCCUPIED);
+        assertTrue(attacks.get(4).getResult() == AttackStatus.SONAROCCUPIED);
+
+        // Test: Bottom second row of 3
+        assertTrue(attacks.get(5).getResult() == AttackStatus.SONARNOTOCCUPIED);
+        assertTrue(attacks.get(6).getResult() == AttackStatus.SONARNOTOCCUPIED);
+        assertTrue(attacks.get(7).getResult() == AttackStatus.SONARNOTOCCUPIED);
+
+        // Test: Top second row of 3
+        assertTrue(attacks.get(8).getResult() == AttackStatus.SONAROCCUPIED);
+        assertTrue(attacks.get(9).getResult() == AttackStatus.SONARNOTOCCUPIED);
+        assertTrue(attacks.get(10).getResult() == AttackStatus.SONAROCCUPIED);
+
+        // Test: Bottom 1
+        assertTrue(attacks.get(11).getResult() == AttackStatus.SONARNOTOCCUPIED);
+
+        // Test: Top 1
+        assertTrue(attacks.get(12).getResult() == AttackStatus.SONARNOTOCCUPIED);
+    }
+
+    @Test
     public void testAttack(){
         // set up board for testing.
         Board board = new Board();
         board.placeShip(new Minesweeper(), 1, 'A', false);
         board.placeShip(new Destroyer(), 9, 'A', false);
         board.placeShip(new Battleship(), 10, 'A', false);
+        board.placeShip(new Submarine(), 8, 'A', false);
 
         assertFalse(board.checkGame());
 
@@ -37,26 +75,26 @@ public class BoardTest {
         attack = board.attack(1, 'B').getResult();
         assertFalse(attack == AttackStatus.SURRENDER);
 
-        // Test: sunk set up for surrender & checkGame function test for false
-        attack = board.attack(9, 'A').getResult();
-        assertTrue(attack == AttackStatus.HIT);
+        // Test: test 2 hit sunk for cq, sunk set up for surrender 
+        // & checkGame function test for false
         attack = board.attack(9, 'B').getResult();
         assertTrue(attack == AttackStatus.CAPTAINHIT);
-
-        attack = board.attack(9, 'C').getResult();
+        attack = board.attack(9, 'B').getResult();
         assertFalse(attack == AttackStatus.SURRENDER);
-        assertTrue(attack == AttackStatus.HIT);
+        assertTrue(attack == AttackStatus.SUNK);
 
-        // Test if ship sunk when cq hit twice
+
+        // Test: surrender (checkGame function)
         attack = board.attack(10, 'A').getResult();
         assertTrue(attack == AttackStatus.HIT);
         attack = board.attack(10, 'B').getResult();
         assertTrue(attack == AttackStatus.CAPTAINHIT);
-        attack = board.attack(10, 'B').getResult();
-        assertTrue(attack == AttackStatus.SUNK);
         attack = board.attack(10, 'C').getResult();
-        assertTrue(attack == AttackStatus.INVALID);
-
+        assertTrue(attack == AttackStatus.HIT);
+        attack = board.attack(10, 'B').getResult();
+        attack = board.attack(8, 'D').getResult();
+        attack = board.attack(8, 'D').getResult();
+        assertTrue(attack == AttackStatus.SURRENDER);
 
     }
 
@@ -135,6 +173,7 @@ public class BoardTest {
         Result result3 = new Result();
         Result result4 = new Result();
         Result result5 = new Result();
+        Result result6 = new Result();
 
         // Test: Check win condition on new game
         win = board.checkGame();
@@ -179,6 +218,10 @@ public class BoardTest {
         // Adding third sunk to the attacks list
         result5.setResult(AttackStatus.SUNK);
         resultList.add(result5);
+        board.setAttacks(resultList);
+
+        result6.setResult(AttackStatus.SUNK);
+        resultList.add(result6);
         board.setAttacks(resultList);
 
         // Test: Check win condition on 3 sunk, 1 hit, 1 miss

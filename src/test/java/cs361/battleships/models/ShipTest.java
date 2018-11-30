@@ -24,6 +24,7 @@ public class ShipTest {
         types.add("MINESWEEPER");
         types.add("DESTROYER");
         types.add("BATTLESHIP");
+        types.add("SUBMARINE");
 
         int length = types.size();
 
@@ -38,7 +39,10 @@ public class ShipTest {
         char col = 'A';
         int row = 0;
 
-        if(type.equals("MINESWEEPER")){
+        if(type.equals("SUBMARINE")){
+            newShip = new Submarine();
+        }
+        else if(type.equals("MINESWEEPER")){
             newShip = new Minesweeper();
         }
         else if(type.equals("DESTROYER")){
@@ -78,6 +82,10 @@ public class ShipTest {
         if (type.equals("BATTLESHIP")){
             assertTrue(newShip.getLength() == 4);
             assertTrue(squares.get(1).isCaptainsQ());
+        }
+        if (type.equals("SUBMARINE")){
+            assertTrue(newShip.getLength() == 5);
+            assertTrue(squares.get(3).isCaptainsQ());
         }
 
     }
