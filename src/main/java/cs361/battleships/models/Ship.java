@@ -11,6 +11,7 @@ public class Ship {
     @JsonProperty protected List<Square> occupiedSquares;
     protected String type;
     protected int length;
+    protected boolean submerged;
     protected int hitLength;
     protected boolean captainHit;
 
@@ -34,6 +35,10 @@ public class Ship {
                 break;
         }
 	}*/
+
+    public void setSubmerged(boolean x) { submerged = x; }
+
+    public boolean getSubmerged() { return submerged; }
 
 	public void setHitLength(int i){
 	    hitLength = i;
@@ -72,31 +77,38 @@ public class Ship {
         int startingRow = pos.getRow();
         char startingCol = pos.getColumn();
 
-        //If the boat is vertical, the dimensions that the squares are allocated
-        //must represent a vertical pattern
-        if (isVertical){
-            for (int i=0; i<length; i++){
-                Square newSquare = new Square(startingRow+i, startingCol);
+        // Iterate through length of ship and place the squares
+        for (int i=0; i<length; i++){
 
-                if (type.equals("MINESWEEPER") && i == 0)
-                    newSquare.setCaptainsQ(true);
-                else if (!type.equals("MINESWEEPER") && i == 1)
-                    newSquare.setCaptainsQ(true);
+            Square newSquare;
 
-                occupiedSquares.add(newSquare);
+            // For vertical ships
+            if(isVertical) {
+                if(i < 4) {
+                    newSquare = new Square(startingRow + i, startingCol);
+                }
+                else {
+                    newSquare = new Square(startingRow + i - 2, (char) (startingCol + 1) );
+                }
             }
-        }
-        else {
-            for (int i = 0; i < length; i++) {
-                Square newSquare = new Square(startingRow, (char)(startingCol+i));
-
-                if (type.equals("MINESWEEPER") && i == 0)
-                    newSquare.setCaptainsQ(true);
-                else if (!type.equals("MINESWEEPER") && i == 1)
-                    newSquare.setCaptainsQ(true);
-
-                occupiedSquares.add(newSquare);
+            // For horizontal ships
+            else {
+                if(i < 4) {
+                    newSquare = new Square(startingRow, (char) (startingCol + i));
+                }
+                else {
+                    newSquare = new Square(startingRow - 1, (char) (startingCol + i - 2));
+                }
             }
+
+            if (type.equals("MINESWEEPER") && i == 0)
+                newSquare.setCaptainsQ(true);
+            else if ((type.equals("DESTROYER") || type.equals("BATTLESHIP")) && i == 1)
+                newSquare.setCaptainsQ(true);
+            else if(type.equals("SUBMARINE") && i == 3)
+                newSquare.setCaptainsQ(true);
+
+            occupiedSquares.add(newSquare);
         }
     }
 

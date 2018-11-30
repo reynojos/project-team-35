@@ -9,6 +9,7 @@ public class Destroyer extends Ship{
         this.type = "DESTROYER";
         this.length = 3;
         this.occupiedSquares = new ArrayList<Square>();
+        this.submerged = false;
         this.hitLength = 0;
     }
 }

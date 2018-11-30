@@ -8,6 +8,7 @@ public class Battleship extends Ship {
         this.type = "BATTLESHIP";
         this.length = 4;
         this.occupiedSquares = new ArrayList<Square>();
+        this.submerged = false;
         this.hitLength = 0;
     }
 }

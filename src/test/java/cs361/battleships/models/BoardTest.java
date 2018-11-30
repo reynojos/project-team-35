@@ -54,6 +54,7 @@ public class BoardTest {
         board.placeShip(new Minesweeper(), 1, 'A', false);
         board.placeShip(new Destroyer(), 9, 'A', false);
         board.placeShip(new Battleship(), 10, 'A', false);
+        board.placeShip(new Submarine(), 8, 'A', false);
 
         assertFalse(board.checkGame());
 
@@ -91,6 +92,8 @@ public class BoardTest {
         attack = board.attack(10, 'C').getResult();
         assertTrue(attack == AttackStatus.HIT);
         attack = board.attack(10, 'B').getResult();
+        attack = board.attack(8, 'D').getResult();
+        attack = board.attack(8, 'D').getResult();
         assertTrue(attack == AttackStatus.SURRENDER);
 
     }
@@ -170,6 +173,7 @@ public class BoardTest {
         Result result3 = new Result();
         Result result4 = new Result();
         Result result5 = new Result();
+        Result result6 = new Result();
 
         // Test: Check win condition on new game
         win = board.checkGame();
@@ -214,6 +218,10 @@ public class BoardTest {
         // Adding third sunk to the attacks list
         result5.setResult(AttackStatus.SUNK);
         resultList.add(result5);
+        board.setAttacks(resultList);
+
+        result6.setResult(AttackStatus.SUNK);
+        resultList.add(result6);
         board.setAttacks(resultList);
 
         // Test: Check win condition on 3 sunk, 1 hit, 1 miss

@@ -35,7 +35,7 @@ public class GameTest {
     public void testBooleanValue() {
         //declare variables that will hold game objectt
         Game g = new Game();
-        boolean isVertical = g.randVertical();
+        boolean isVertical = g.randBool();
 
         //This assert will check if the variable returns true or not
         assertTrue(isVertical || !isVertical);

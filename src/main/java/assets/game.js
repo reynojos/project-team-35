@@ -4,6 +4,7 @@ var placedShips = [];
 var game;
 var shipType;
 var vertical;
+var submerged;
 var sonars = 0;
 var sonarsUsed = 0;
 
@@ -106,6 +107,10 @@ function crossOutShip(attack, player){
             var b = document.getElementById("place_destroyer");
             b.innerHTML = "<strike>Destroyer</strike>";
         }
+        else if(shipSunk == "SUBMARINE"){
+            var b = document.getElementById("place_submarine");
+            b.innerHTML = "<strike>Submarine</strike>";
+        }
     }
 
     if(player == "opponent"){
@@ -121,6 +126,10 @@ function crossOutShip(attack, player){
         else if(shipSunk == "DESTROYER"){
             var b = document.getElementById("op_destroyer");
             b.innerHTML = "<strike>Destroyer</strike>";
+        }
+        else if(shipSunk == "SUBMARINE"){
+            var b = document.getElementById("op_submarine");
+            b.innerHTML = "<strike>Submarine</strike>";
         }
     }
 }
@@ -247,18 +256,20 @@ function removeLink(shipType){
         a.innerText = "Minesweeper";
         a.removeAttribute("href");
     }
-
     else if (shipType == "BATTLESHIP"){
         var a = document.getElementById("place_battleship");
         a.innerText = "Battleship";
         a.removeAttribute("href");
     }
-
     else if (shipType == "DESTROYER"){
         var a = document.getElementById("place_destroyer");
         a.innerText = "Destroyer";
         a.removeAttribute("href");
-
+    }
+    else if (shipType == "SUBMARINE"){
+        var a = document.getElementById("place_submarine");
+        a.innerText = "Submarine";
+        a.removeAttribute("href");
     }
 }
 
@@ -286,12 +297,15 @@ function cellClick() {
             return;
         }
 
-        sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical}, function(data) {
+        // Always hide submerged checkbox unless submarine is clicked
+        document.getElementById("submerged-checkbox").classList.add("hideElement");
+
+        sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical, isSubmerged: submerged}, function(data) {
             game = data;
             redrawGrid();
             placedShips.push(shipType);
             removeLink(shipType);
-            if (placedShips.length == 3) {
+            if (placedShips.length == 4) {
                 isSetup = false;
                 registerCellListener((e) => {});
                 document.getElementById("vertical-checkbox").classList.add("hideElement");
@@ -363,6 +377,7 @@ function place(size) {
         let row = this.parentNode.rowIndex;
         let col = this.cellIndex;
         vertical = document.getElementById("is_vertical").checked;
+        submerged = document.getElementById("is_submerged").checked;
         let table = document.getElementById("player");
 
         out = false;
@@ -373,15 +388,29 @@ function place(size) {
             /*After ship selection, check if the object is orientated to be veritcal or not*/
             if(vertical) {
                 let tableRow = table.rows[row+i];
-                if (tableRow === undefined) {
-                    // ship is over the edge; let the back end deal with it
-                    out = true;
-                    break;
+
+                // For first 4 squares (submarine is only one > 4)
+                if(i < 4) {
+                    if (tableRow === undefined) {
+                        // ship is over the edge; let the back end deal with it
+                        out = true;
+                        break;
+                    }
+                    else
+                        cell = tableRow.cells[col];
                 }
-                cell = tableRow.cells[col];
+                // For submarine off square
+                else {
+                        cell = table.rows[row + i - 2].cells[col + 1];
+                }
             }
             else {
-                cell = table.rows[row].cells[col+i];
+                if(i < 4) {
+                    cell = table.rows[row].cells[col+i];
+                }
+                else {
+                    cell = table.rows[row - 1].cells[col + i - 2];
+                }
             }
 
             if (cell === undefined) {
@@ -390,7 +419,8 @@ function place(size) {
                 break;
             }
 
-            if (cell.classList.contains("occupied")){
+            // If cell is occupied and not submerged
+            if (cell.classList.contains("occupied") && !submerged){
                 overlap = true;
             }
 
@@ -512,17 +542,22 @@ function initGame() {
 
     document.getElementById("place_minesweeper").addEventListener("click", function(e) {
         shipType = "MINESWEEPER";
-       registerCellListener(place(2));
+        registerCellListener(place(2));
     });
 
     document.getElementById("place_destroyer").addEventListener("click", function(e) {
         shipType = "DESTROYER";
-       registerCellListener(place(3));
+        registerCellListener(place(3));
     });
 
     document.getElementById("place_battleship").addEventListener("click", function(e) {
         shipType = "BATTLESHIP";
-       registerCellListener(place(4));
+        registerCellListener(place(4));
+    });
+
+    document.getElementById("place_submarine").addEventListener("click", function(e) {
+        shipType = "SUBMARINE";
+        registerCellListener(place(5));
     });
 
     document.getElementById("sonar-button").addEventListener("click", function(e){
